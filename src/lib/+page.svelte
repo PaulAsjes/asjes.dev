@@ -5,7 +5,7 @@
 
 	import { SITE_TITLE, POST_CATEGORIES } from '$lib/siteConfig';
 
-	import IndexCard from '../../components/IndexCard.svelte';
+	import IndexCard from '../components/IndexCard.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;

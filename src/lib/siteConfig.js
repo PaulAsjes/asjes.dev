@@ -1,12 +1,12 @@
-export const SITE_URL = 'https://swyxkit.netlify.app';
+export const SITE_URL = 'https://asjes.dev';
 export const APPROVED_POSTERS_GH_USERNAME = ['PaulAsjes'];
 export const GH_USER_REPO = 'PaulAsjes/asjes.dev'; // used for pulling github issues and offering comments
 export const SITE_TITLE = 'asjes.dev';
-export const SITE_DESCRIPTION = "Paul Asjes";
+export const SITE_DESCRIPTION = "Paul Asjes' personal site";
 export const DEFAULT_OG_IMAGE =
 	'https://user-images.githubusercontent.com/6764957/147861359-3ad9438f-41d1-47c8-aa05-95c7d18497f0.png';
 export const MY_TWITTER_HANDLE = 'paul_asjes';
-export const MY_YOUTUBE = 'https://youtube.com/swyxTV';
+// export const MY_YOUTUBE = 'https://youtube.com/swyxTV';
 export const POST_CATEGORIES = ['Blog', 'Talks']; // Other categories you can consider adding: Talks, Tutorials, Snippets, Podcasts, Notes...
 export const GH_PUBLISHED_TAGS = ['Published'];
 

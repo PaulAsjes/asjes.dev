@@ -1,5 +1,4 @@
-<script>
-	import Newsletter from '../components/Newsletter.svelte';
+<script>	
 	import FeatureCard from '../components/FeatureCard.svelte';
 	import {
 		SITE_URL,
@@ -49,6 +48,7 @@
 				>
 					<span class="relative text-yellow-400 skew-y-3">{SITE_TITLE}</span>
 				</span>
+
 				!
 			</h1>
 			<h2 class="mb-4 text-gray-700 dark:text-gray-200">
@@ -115,5 +115,4 @@
 			></a
 		>
 	</section>
-	<Newsletter />
 </div>
