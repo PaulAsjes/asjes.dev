@@ -19,7 +19,7 @@
 	{#each Object.keys(reactions) as reaction}
 		{#if Object.keys(emojiMap).includes(reaction) && reactions[reaction] > 0}
 			<span class="reaction-button">
-				<span class="space-x-1 rounded border-blue-800 p-2">
+				<span class="space-x-1 rounded border-blue-400 p-2">
 					<span class="reaction-button-emoji">{emojiMap[reaction]}</span>
 					<span class="reaction-button-count">{reactions[reaction]}</span>
 				</span>

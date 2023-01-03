@@ -38,11 +38,11 @@ module.exports = {
 							'border-radius': '0rem',
 						},
 						'a:hover': {
-							color: '#31cdce !important',
+							color: '#60A5FA !important',
 							textDecoration: 'underline !important'
 						},
 						a: {
-							color: '#3182ce',
+							color: '#60A5FA',
 							textDecoration: 'none'
 						},
 						'a code': {

@@ -1,7 +1,7 @@
 <script>
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	// import { browser } from '$app/environment';
+	// import { goto } from '$app/navigation';
+	// import { page } from '$app/stores';
 	import { queryParam } from "sveltekit-search-params";
 
 	import { SITE_TITLE, POST_CATEGORIES } from '$lib/siteConfig';
@@ -22,10 +22,6 @@
 	let search = queryParam("filter");
 	let inputEl;
 
-	function focusSearch(e) {
-		if (e.key === '/' && inputEl) inputEl.select();
-	}
-
 	let isTruncated = items?.length > 20;
 	$: list = items
 		.filter((item) => {
@@ -44,7 +40,7 @@
 			}
 			return true;
 		})
-		.slice(0, isTruncated ? 2 : items.length);
+		.slice(0, isTruncated ? 2 : items.length);		
 </script>
 
 <svelte:head>
@@ -52,15 +48,12 @@
 	<meta name="description" content={`Latest ${SITE_TITLE} posts`} />
 </svelte:head>
 
-<svelte:window on:keyup={focusSearch} />
-
-<section class="flex flex-col items-start justify-center max-w-2xl px-4 mx-auto mb-16 sm:px-8">
+<section class="flex flex-col items-start justify-center max-w-2xl px-4 mx-auto mb-16 sm:px-8 py-8">
 	<h1 class="mb-4 text-3xl font-bold tracking-tight text-black dark:text-white md:text-5xl">
 		Blog
 	</h1>
 	<p class="mb-4 text-gray-600 dark:text-gray-400">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum sunt reprehenderit alias rerum
-		dolor impedit. In total, I've written {items.length} articles on my blog. Use the search below to
+		You can find my writings here, or on Stripe's <a href="https://dev.to/stripe" rel="noreferrer" target="_blank">dev.to</a> page. In total, I've written {items.length} articles on my personal blog. Use the search below to
 		filter by title.
 	</p>
 	<div class="relative w-full mb-4">
@@ -69,7 +62,7 @@
 			type="text"
 			bind:value={$search}
 			bind:this={inputEl}
-			placeholder="Hit / to search"
+			placeholder="Search blogs and talks"
 			class="block w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
 		/><svg
 			class="absolute w-5 h-5 text-gray-400 right-3 top-3 dark:text-gray-300"
@@ -91,7 +84,7 @@
 	<div class="flex items-center mt-2 mb-12 ">
 		<div class="mr-2 text-gray-900 dark:text-gray-400">Filter:</div>
 		<div class="grid grid-cols-3 rounded-md shadow-sm sm:grid-cols-6">
-			{#each POST_CATEGORIES as availableCategory}
+			{#each POST_CATEGORIES as availableCategory, i}
 				<div>
 					<input
 						id="category-{availableCategory}"
@@ -102,7 +95,7 @@
 					/>
 					<label
 						for="category-{availableCategory}"
-						class="inline-flex items-center justify-between w-full px-4 py-2 text-gray-500 bg-white border border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-gray-600 peer-checked:border-purple-600 peer-checked:text-purple-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-purple-500"
+						class="{i === 0 ? 'rounded-l-lg' : (i === POST_CATEGORIES.length - 1 ? "rounded-r-lg" : "")} inline-flex items-center justify-between w-full px-4 py-2 text-gray-500 bg-white border border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-400 peer-checked:text-blue-400 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-400"
 					>
 						{availableCategory}
 					</label>
@@ -112,7 +105,7 @@
 	</div>
 	{/if}
 
-	<!-- you can hardcode yourmost popular posts or pinned post here if you wish -->
+	<!-- you can hardcode your most popular posts or pinned post here if you wish -->
 	{#if !$search}
 		<h3 class="mt-8 mb-4 text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl">
 			Most Popular
@@ -129,8 +122,7 @@
 	{#if list.length}
 		<ul class="">
 			{#each list as item}
-				<li class="mb-8 text-lg">
-					<!-- <code class="mr-4">{item.data.date}</code> -->
+				<li class="mb-8 text-lg">					
 					<IndexCard
 						href={item.slug}
 						title={item.title}

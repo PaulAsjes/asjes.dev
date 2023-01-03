@@ -47,7 +47,7 @@
 </script>
 
 <div
-	class="mb-4 border-y-2 px-2 pt-4 dark:border-blue-700 sm:border-x sm:border-blue-200 sm:border-opacity-40 sm:px-4"
+	class="mb-4 border-y-2 px-2 pt-4 dark:border-zinc-900 sm:border-x sm:border-slate-200 sm:px-4 rounded"
 >
 	<div class="md-10 flex flex-row">
 		<img
@@ -62,7 +62,7 @@
 			>
 				{comment.user.login}
 				<span class="ml-2 text-xs font-normal text-gray-500">
-					<a href={comment.html_url} class="no-underline" rel="external" target="_blank">
+					<a href={comment.html_url} class="no-underline" rel="noreferrer" target="_blank">
 						<time>{formatDistance(new Date(comment.created_at), new Date())} ago</time>
 					</a>
 				</span>

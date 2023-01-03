@@ -43,7 +43,7 @@
 			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black dark:text-white md:text-2xl">
 				Paul Asjes
 			</h1>
-			<h2 class=" flex justicy-center mb-4 text-gray-700 dark:text-gray-200 text-5xl">
+			<h2 class="flex justicy-center mb-4 text-gray-700 dark:text-gray-200 text-5xl">
 				Developer Advocate and tech enthusiast.
 				<div
 				class="w-[80px] h-[80px] rounded-full sm:w-[176px] sm:h-[136px] relative mb-8 sm:mb-0 mr-auto bg-gray-300 bg-opacity-25"
@@ -55,6 +55,9 @@
 
 	<section class="flex justify-center bg-zinc-900 pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
+			<h1 class="mb-3 text-2xl font-bold tracking-tight text-white md:text-2xl">
+				Writing
+			</h1>
 			<h3 class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">
 				Featured Posts
 			</h3>
@@ -69,9 +72,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- <section class="w-full mb-16">
-		<pre>{JSON.stringify(speaking, null, 2)}</pre>
-	</section> -->
+	
 	<section class="flex justify-center bg-zinc-800 pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
 			<h3 id="latest" class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">
@@ -80,13 +81,13 @@
 			<ul class="space-y-2 text-white">
 				{#each items as item (item.slug)}
 					<li>
-						<a class="font-bold" data-sveltekit-preload-data href={item.slug}>{item.title}</a>
-						<span class="hidden text-xs text-black sm:inline dark:text-gray-400">{new Date(item.date).toISOString().slice(0, 10)}</span>
+						<a class="font-bold text-blue-400 dark:text-blue-400" data-sveltekit-preload-data href={item.slug}>{item.title}</a>
+						<span class="hidden text-xs text-gray-400 sm:inline">{new Date(item.date).toISOString().slice(0, 10)}</span>
 					</li>
 				{/each}
 			</ul>
 			<a
-				class="flex h-6 mt-2 leading-7 text-gray-600 transition-all rounded-lg dark:text-gray-400 dark:hover:text-gray-200"
+				class="flex h-6 mt-2 leading-7 text-gray-400 hover:text-blue-400 transition-all rounded-lg dark:hover:text-blue-400"
 				href="/blog"
 				>Search and see all posts<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -103,5 +104,14 @@
 				></a
 			>
 		</div>		
+	</section>
+
+	<section class="flex justify-center bg-white pt-6 pb-6 w-full">
+		<div class="flex flex-col max-w-5xl w-3/4">
+			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black md:text-2xl">
+				Elsewhere
+			</h1>
+			<h3 class="mb-6 text-2xl font-bold tracking-tight text-gray-700 md-text:4xl">Find me on the Internet in these places</h3>
+		</div>
 	</section>
 </div>

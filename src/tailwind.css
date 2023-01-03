@@ -20,8 +20,8 @@ body {
 		- https://css-tricks.com/strut-your-stuff-with-a-custom-scrollbar/
 		*/
 	/* --scrollbar-primary-color: #3730a3; */
-	--scrollbar-primary-color: #facc15;
-	--text-color: #ef4444;
+	--scrollbar-primary-color: #60A5FA;
+	--text-color: #fff;
 	overflow: scroll; /* https://maxschmitt.me/posts/react-prevent-layout-shift-body-scrollable/ */
 }
 /* .dark body {
@@ -51,7 +51,7 @@ pre {
 
 @layer components {
 	body {
-		--brand-accent: #facc15;
+		--brand-accent: #60A5FA
 		/* https://ishadeed.com/article/defensive-css */
 		overflow-wrap: break-word;
 		overflow-y: auto;
@@ -102,7 +102,7 @@ pre {
 }
 /* bg-yellow-200 dark:hover:bg-yellow-800 */
 a {
-	@apply text-yellow-700 hover:text-yellow-700 hover:underline dark:text-white dark:hover:text-blue-400;
+	@apply text-blue-400 hover:text-blue-700 hover:underline dark:text-white dark:hover:text-blue-400;
 }
 
 /* for the super long github links i drop */
@@ -117,7 +117,7 @@ h5 a,
 h6 a {
 	/* margin-left: 1rem; */
 	text-decoration: none !important;
-	@apply text-orange-700 dark:text-orange-400;
+	@apply text-black dark:text-white;
 }
 .prose h2::before {
 	content: '## ';
