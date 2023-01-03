@@ -14,7 +14,6 @@ import remarkStringify from 'remark-stringify';
 import rehypeStringify from 'rehype-stringify';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutoLink from 'rehype-autolink-headings';
-import sanitizer from 'sanitize';
 
 const remarkPlugins = undefined;
 const rehypePlugins = [

@@ -13,7 +13,7 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	// technically this is a slighlty different type because doesnt have 'content' but we'll let it slide
+	// technically this is a slightly different type because doesnt have 'content' but we'll let it slide
 	/** @type {import('$lib/types').ContentItem[]} */
 	$: items = data.items.slice(0, 10);
 </script>

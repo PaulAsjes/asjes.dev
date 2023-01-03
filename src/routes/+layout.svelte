@@ -13,45 +13,44 @@
 	/>
 </svelte:head>
 
-<div class="flex flex-col justify-center bg-gray-50 px-4 dark:bg-gray-900 sm:px-8">
+<div class="flex flex-col justify-center bg-gray-50 px-4 dark:bg-black sm:px-8">
 	<Nav />
 </div>
-<main class="flex flex-col justify-center bg-gray-50 px-4 dark:bg-gray-900 sm:px-8">
+<main class="flex flex-col justify-center bg-gray-50 px-4 dark:bg-black sm:px-8">
 	<slot />
 </main>
 
-<footer class="mx-auto mb-8 flex w-full max-w-2xl flex-col items-start justify-center">
-	<hr class="border-1 mb-8 w-full border-gray-200 dark:border-gray-800" />
-	<div class="grid w-full max-w-2xl grid-cols-1 gap-4 px-4 pb-16 sm:grid-cols-2 sm:px-8">
-		<div class="flex flex-col space-y-4">
-			<a class="text-gray-500 transition hover:text-gray-300" href="/">Home</a>
-			<a class="text-gray-500 transition hover:text-gray-300" href="/about">About</a>			
-			<a class="text-gray-500 transition hover:text-gray-300" href="/rss.xml" rel="external">
-				RSS
-			</a>
-		</div>
-		<div class="flex flex-col space-y-4">
+<div class="flex justify-center dark:bg-black sm:px-8 my-5">
+	<footer class="mx-auto mb-8 flex w-full max-w-2xl flex-col items-start">
+		<div class="flex justify-evenly w-full max-w-2xl">
+			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/">Home</a>
+			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">About</a>			
+			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">Blog</a>			
+			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">Talks</a>			
 			<a
-				class="text-gray-500 transition hover:text-gray-300"
-				target="_blank"
-				rel="noopener noreferrer"
-				href={'https://twitter.com/intent/follow?screen_name=' + MY_TWITTER_HANDLE}
-			>
-				Twitter
-			</a>
-			<a
-				class="text-gray-500 transition hover:text-gray-300"
-				target="_blank"
-				rel="noopener noreferrer"
-				href={REPO_URL}
-			>
-				GitHub
-			</a>			
+					class="text-gray-500 transition hover:text-gray-300 hover:no-underline"
+					target="_blank"
+					rel="noopener noreferrer"
+					href={'https://twitter.com/intent/follow?screen_name=' + MY_TWITTER_HANDLE}
+				>
+					Twitter
+				</a>
+				<a
+					class="text-gray-500 transition hover:text-gray-300 hover:no-underline"
+					target="_blank"
+					rel="noopener noreferrer"
+					href={REPO_URL}
+				>
+					Source
+				</a>			
+		</div>						
+		<div class="flex w-full justify-center my-5">
+			<p class="prose px-4 dark:prose-invert sm:px-10 text-xs">
+				This site is based on the
+				<a href="https://swyxkit.netlify.app/">swyxkit</a>
+				template.
+			</p>
 		</div>
-	</div>
-	<p class="prose px-4 dark:prose-invert sm:px-8">
-		This blog is based on the
-		<a href="https://swyxkit.netlify.app/">swyxkit</a>
-		template.
-	</p>
-</footer>
+	</footer>
+</div>
+
