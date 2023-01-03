@@ -16,7 +16,7 @@
 <div class="flex flex-col justify-center px-4 dark:bg-black sm:px-8 py-8">
 	<Nav />
 </div>
-<main class="flex flex-col justify-center bg-gray-50 px-4 dark:bg-black sm:px-8 mt-8">
+<main class="flex flex-col justify-center bg-gray-50 dark:bg-black mt-8">
 	<slot />
 </main>
 
@@ -24,8 +24,8 @@
 	<footer class="mx-auto mb-8 flex w-full max-w-2xl flex-col items-start">
 		<div class="flex justify-evenly w-full max-w-2xl">
 			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/">Home</a>
-			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">About</a>			
 			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">Blog</a>			
+			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">About</a>
 			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about">Talks</a>			
 			<a
 					class="text-gray-500 transition hover:text-gray-300 hover:no-underline"

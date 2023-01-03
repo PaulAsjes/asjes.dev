@@ -32,10 +32,7 @@
 		hideNav = scrollY > prevY;		
 
 		prevY = scrollY;
-
-		console.log(hideNav);
 	}
-
 
 </script>
 

@@ -6,9 +6,9 @@ module.exports = {
 		'./src/**/*.html'
 	],
 	darkMode: 'class',
-	theme: {
+	theme: {		
 		extend: {
-			typography: (theme) => ({
+			typography: (theme) => ({				
 				DEFAULT: {
 					css: {
 						'--tw-prose-bullets': theme('colors.black'),
