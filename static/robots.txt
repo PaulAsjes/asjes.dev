@@ -1,4 +1,4 @@
-Sitemap: https://swyxkit.netlify.app/sitemap.xml
+Sitemap: https://paulasjes.com/sitemap.xml
 
 # https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap#addsitemap
 # https://www.robotstxt.org/robotstxt.html

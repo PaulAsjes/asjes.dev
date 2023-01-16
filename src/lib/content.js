@@ -28,7 +28,6 @@ const rehypePlugins = [
 	]
 ];
 
-
 let allBlogposts = [];
 // let etag = null // todo - implmement etag header
 

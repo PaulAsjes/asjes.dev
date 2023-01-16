@@ -8,6 +8,7 @@
 		DEFAULT_OG_IMAGE,
 		MY_TWITTER_HANDLE
 	} from '$lib/siteConfig';
+
 	export const prerender = true; // index page is most visited, lets prerender
 
 
@@ -21,7 +22,6 @@
 <svelte:head>
 	<title>{SITE_TITLE}</title>
 	<link rel="canonical" href={SITE_URL} />
-	<link rel="alternate" type="application/rss+xml" href={SITE_URL + '/rss.xml'} />
 	<meta property="og:url" content={SITE_URL} />
 	<meta property="og:type" content="article" />
 	<meta property="og:title" content={SITE_TITLE} />
@@ -43,13 +43,16 @@
 			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black dark:text-white md:text-2xl">
 				Paul Asjes
 			</h1>
-			<h2 class="flex justicy-center mb-4 text-gray-700 dark:text-gray-200 text-5xl">
-				Developer Advocate and tech enthusiast.
-				<div
-				class="w-[80px] h-[80px] rounded-full sm:w-[176px] sm:h-[136px] relative mb-8 sm:mb-0 mr-auto bg-gray-300 bg-opacity-25"
-				/>
+			<h2 class="flex justify-between mb-4 text-gray-700 dark:text-gray-200 text-5xl">
+				<div>	
+					<p>Developer Advocate &</p> 
+					<p>Engineering Manager.</p>
+				</div>
+				<div class="w-[80px] h-[80px] rounded-full sm:w-[176px] sm:h-[136px] relative">
+					<img src="/profile.jpg" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
+				</div>
 			</h2>
-			<p class="text-black dark:text-white">Hi! I'm Paul.</p>
+			<p class="text-black dark:text-white">Hi! I'm Paul. I'm a Developer Relations Engineering Manager at Stripe.</p>
 		</div>		
 	</section>
 
@@ -89,20 +92,23 @@
 			<a
 				class="flex h-6 mt-2 leading-7 text-gray-400 hover:text-blue-400 transition-all rounded-lg dark:hover:text-blue-400"
 				href="/blog"
-				>Search and see all posts<svg
+			>
+				Search and see all posts
+				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
 					viewBox="0 0 24 24"
 					class="w-6 h-6 ml-1"
-					><path
+				>
+					<path
 						stroke="currentColor"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 						stroke-width="2"
 						d="M17.5 12h-15m11.667-4l3.333 4-3.333-4zm3.333 4l-3.333 4 3.333-4z"
-					/></svg
-				></a
-			>
+					/>
+				</svg>
+			</a>
 		</div>		
 	</section>
 
