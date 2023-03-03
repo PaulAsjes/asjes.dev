@@ -15,6 +15,7 @@ export type ContentItem = {
 	date: Date;
 	readingTime: string;
 	ghMetadata: GHMetadata;
+	ytID: string;
 };
 
 export type GHMetadata = {

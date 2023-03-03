@@ -259,6 +259,7 @@ function parseIssue(issue) {
 			created_at: issue.created_at,
 			updated_at: issue.updated_at,
 			reactions: issue.reactions
-		}
+		},
+		ytID: '',
 	};
 }
