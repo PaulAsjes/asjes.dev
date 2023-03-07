@@ -2,12 +2,12 @@
 	// href={item.slug} title={item.data.title} date={item.data.date}
 	export let href = '#';
 	/** @type {import('$lib/types').ContentItem} */
-	export let item = undefined;
+	export let item;
 	/** @type {import('$lib/types').GHMetadata} */
-	export let ghMetadata = null;
+	export let ghMetadata;
 	export let title = 'Untitled post';
 	/** @type {string} */
-	export let stringData = null;
+	export let stringData;
 
 	console.log(item);
 </script>
@@ -19,7 +19,7 @@
 	{href}
 >
 	<div class="mb-8 flex flex-row">
-		<div class="flex flex-col justify-center m-5 w-1/2">
+		<div class="flex flex-col justify-center m-5 w-full">
 			<div class="flex flex-col justify-between md:flex-row">
 				<h4 class="mb-2 w-full flex-auto text-lg font-medium md:text-xl">
 					{title}
@@ -36,7 +36,7 @@
 					<p>{stringData}</p>
 				{/if}
 				{#if item?.date}
-					<p>{typeof item?.date === 'string' ? item?.date : item?.date.toLocaleDateString()}</p>
+					<p>{new Date(item?.date).toLocaleDateString()}</p>
 				{/if}
 				{#if item?.readingTime}
 					<p class="hidden sm:inline-block">{item?.readingTime}</p>

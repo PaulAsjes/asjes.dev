@@ -2,7 +2,6 @@
 	import FeatureCard from '../components/FeatureCard.svelte';
 	import {
 		SITE_URL,
-		REPO_URL,
 		SITE_TITLE,
 		SITE_DESCRIPTION,
 		DEFAULT_OG_IMAGE,
@@ -52,7 +51,7 @@
 					<img src="/profile.jpg" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
 				</div>
 			</h2>
-			<p class="text-black dark:text-white">Hi! I'm Paul. I'm a Developer Relations Engineering Manager at Stripe.</p>
+			<p class="text-black dark:text-white">Hi, I'm Paul. I'm a dad x 2 and a Developer Relations Engineering Manager at Stripe. </p>
 		</div>		
 	</section>
 
@@ -65,11 +64,14 @@
 				Featured Posts
 			</h3>
 			<div class="flex flex-col gap-6 md:flex-row">
-				<FeatureCard title="Welcome to swyxkit 2022!" href="/welcome" stringData="Jan 2022" />
+				<FeatureCard 
+					title="Designing APIs for humans: Object IDs " 
+					href="/welcome" 
+					stringData="August 2022" />
 				<FeatureCard
-					title="Moving to a GitHub CMS"
+					title="Designing APIs for humans: Error messages"
 					href="/moving-to-a-github-cms"
-					stringData="Jan 2022"
+					stringData="September 2022"
 				/>
 				<FeatureCard title="HTML Ipsum demo" href="/moo" stringData="Jan 2022" />
 			</div>
@@ -115,9 +117,27 @@
 	<section class="flex justify-center bg-white pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
 			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black md:text-2xl">
-				Elsewhere
+				Speaking
 			</h1>
-			<h3 class="mb-6 text-2xl font-bold tracking-tight text-gray-700 md-text:4xl">Find me on the Internet in these places</h3>
+			<h1 class="mb-6 text-2xl font-bold tracking-tight text-black md:text-4xl">
+				Featured Talks
+			</h1>
+			<div class="flex flex-col gap-6 md:flex-row">
+				<FeatureCard 
+					title="Dinos and Clouds: Node apps for Deno and Cloudflare Workers" 
+					href="https://www.youtube.com/watch?v=abA7dIP2BKc" 
+					stringData="May 2022" />
+				<FeatureCard
+					title="Card Testing: A Developer’s Guide to Fighting Against the Dark Web"
+					href="https://www.youtube.com/watch?v=sZKTWVDnBAQ"
+					stringData="March 2022"
+				/>
+				<FeatureCard 
+					title="Making It All Fit Together with React and GraphQL" 
+					href="https://www.youtube.com/watch?v=EjJVf2s60s8" 
+					stringData="July 2019" 
+				/>
+			</div>
 		</div>
 	</section>
 </div>

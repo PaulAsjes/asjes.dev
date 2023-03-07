@@ -11,7 +11,7 @@
 <section class="flex flex-col items-start justify-center max-w-5xl w-2/3 px-4 mx-auto mb-16 sm:px-8 py-8">
   <IndexCard 
     href="https://www.youtube.com/watch?v=abA7dIP2BKc" 
-    title="Dinos and Clouds Node apps for Deno and Cloudflare Workers" 
+    title="Dinos and Clouds: Node apps for Deno and Cloudflare Workers" 
     item={{
       category: 'talk', 
       ytID: 'abA7dIP2BKc',

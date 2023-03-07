@@ -1,21 +1,21 @@
 export type ContentItem = {
 	type: 'blog';
 	content: string;
-	frontmatter: {
+	frontmatter?: {
 		[key: string]: string;
 	};
 	title: string;
-	subtitle: string;
-	description: string;
-	category: string;
-	tags: string[];
-	image: string;
-	canonical: string;
-	slug: string;
-	date: Date;
-	readingTime: string;
-	ghMetadata: GHMetadata;
-	ytID: string;
+	subtitle?: string;
+	description?: string;
+	category?: string;
+	tags?: string[];
+	image?: string;
+	canonical?: string;
+	slug?: string;
+	date?: Date;
+	readingTime?: string;
+	ghMetadata?: GHMetadata;
+	ytID?: string;
 };
 
 export type GHMetadata = {

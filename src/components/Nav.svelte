@@ -4,7 +4,7 @@
 	import NavLink from './NavLink.svelte';
 
 	let isDark = false;
-	let scrollY;
+	let scrollY = -1;
 	let prevY = 0;
 	let hideNav = false;
 
