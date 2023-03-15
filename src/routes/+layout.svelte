@@ -18,9 +18,6 @@
 			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/blog"
 				>Blog</a
 			>
-			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/about"
-				>About</a
-			>
 			<a class="text-gray-500 transition hover:text-gray-300 hover:no-underline" href="/talks"
 				>Talks</a
 			>

@@ -1,10 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-test('about page has expected h1', async ({ page }) => {
-	await page.goto('/about');
-	expect(await page.textContent('h1')).toBe('About swyxkit!');
-});
-
 test.describe('test blog page', () => {
 	test('blog page to preserve url params', async ({ page }) => {
 		// Go to http://localhost:4173/

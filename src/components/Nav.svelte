@@ -39,7 +39,7 @@
 <svelte:window bind:scrollY={scrollY} on:scroll={onScroll}/>
 
 <nav
-	class="fixed top-0 left-0 right-0 mx-auto flex flex-col w-full items-center justify-between bg-white
+	class="fixed top-0 left-0 right-0 z-10 mx-auto flex flex-col w-full items-center justify-between bg-white
 	py-8 pb-8 text-gray-900 dark:border-gray-700 dark:bg-black
 	dark:text-gray-100 sm:pb-8 will-change-scroll transition ease-in-out duration-300"
 	style="transform: translate(0, {hideNav ? -100 : 0}px"
@@ -53,9 +53,6 @@
 			</li>
 			<li>
 				<NavLink href="/blog">Blog</NavLink>
-			</li>
-			<li>
-				<NavLink href="/about">About</NavLink>
 			</li>
 			<li>
 				<NavLink href="/talks">Talks</NavLink>

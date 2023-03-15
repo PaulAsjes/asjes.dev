@@ -48,7 +48,7 @@
 					<p>Engineering Manager.</p>
 				</div>
 				<div class="w-[80px] h-[80px] rounded-full sm:w-[176px] sm:h-[136px] relative">
-					<img src="/profile.jpg" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
+					<img src="/profile.png" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
 				</div>
 			</h2>
 			<p class="text-black dark:text-white">Hi, I'm Paul. I'm a dad x 2 and a Developer Relations Engineering Manager at Stripe. </p>

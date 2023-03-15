@@ -85,16 +85,6 @@
 			</li>
 			<li
 				class="border-b border-gray-300 font-semibold text-gray-900 dark:border-gray-700 dark:text-gray-100"
-				style="transition-delay: 350ms;"
-			>
-				<a
-					class="flex w-auto pb-4"
-					on:click={() => setTimeout(() => (isOpen = false), 300)}
-					href="/about">About</a
-				>
-			</li>
-			<li
-				class="border-b border-gray-300 font-semibold text-gray-900 dark:border-gray-700 dark:text-gray-100"
 				style="transition-delay: 400ms;"
 			>
 				<a
