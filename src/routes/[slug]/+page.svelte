@@ -59,7 +59,7 @@
 
 <div class="mx-auto max-w-5xl w-2/3 flex justify-center">
 	<div class="flex flex-col justify-center max-w-5xl w-2/3">
-		<div class="prose mb-12 border-t border-b border-blue-400 p-4 dark:prose-invert">
+		<div class="prose mb-12 p-4 dark:prose-invert">
 			{#if json.ghMetadata.reactions.total_count > 0}
 				Reactions: <Reactions
 					issueUrl={json.ghMetadata.issueUrl}
@@ -70,8 +70,9 @@
 				if you liked this post! 🧡
 			{/if}
 		</div>
-		<div class="mb-8">
+		<!-- Never read the comments -->
+		<!-- <div class="mb-8">
 			<Comments ghMetadata={json.ghMetadata} />
-		</div>
+		</div> -->
 	</div>
 </div>

@@ -1,7 +1,4 @@
 <script>
-	// import { browser } from '$app/environment';
-	// import { goto } from '$app/navigation';
-	// import { page } from '$app/stores';
 	import { queryParam } from "sveltekit-search-params";
 
 	import { SITE_TITLE, POST_CATEGORIES } from '$lib/siteConfig';
