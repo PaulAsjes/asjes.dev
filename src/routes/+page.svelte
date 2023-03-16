@@ -63,7 +63,7 @@
 			<h3 class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">
 				Featured Posts
 			</h3>
-			<div class="flex flex-col gap-6 md:flex-row">
+			<div class="flex flex-col gap-6 md:flex-row justify-center">
 				<FeatureCard 
 					title="Designing APIs for humans: Object IDs " 
 					href="/welcome" 
@@ -73,7 +73,6 @@
 					href="/moving-to-a-github-cms"
 					stringData="September 2022"
 				/>
-				<FeatureCard title="HTML Ipsum demo" href="/moo" stringData="Jan 2022" />
 			</div>
 		</div>
 	</section>
