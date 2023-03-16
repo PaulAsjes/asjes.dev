@@ -107,8 +107,8 @@
 		<h3 class="mt-8 mb-4 text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl">
 			Most Popular
 		</h3>
-		<IndexCard href="/welcome" title="Welcome to swyxkit!" stringData="123,456 views">
-			This is swyx's preferred starter for Svelte projects!
+		<IndexCard href="/designing-apis-for-humans-error-messages" title="Designing APIs for humans: Error Messages" stringData="">
+			A deep dive on how to build useful error messages for the humans that need them.
 		</IndexCard>
 
 		<h3 class="mt-8 mb-4 text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl">
