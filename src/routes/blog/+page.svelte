@@ -1,5 +1,5 @@
 <script>
-	import { queryParam } from "sveltekit-search-params";
+	import { queryParam, ssp } from "sveltekit-search-params";
 
 	import { SITE_TITLE, POST_CATEGORIES } from '$lib/siteConfig';
 
@@ -16,32 +16,46 @@
 		encode: (arr)=> arr?.toString(),
 		decode: (str)=> str?.split(",")?.filter((e) => e) ?? [],
 	});
-	let search = queryParam("filter");
+	let search = queryParam('filter', ssp.string(), {
+		debounceHistory: 500,
+	});
 	let inputEl;
 
 	let isTruncated = items?.length > 20;
-	$: list = items
-		.filter((item) => {
-			if ($selectedCategories?.length) {
+
+		// we are lazy loading a fuzzy search function
+	// with a fallback to a simple filter function
+	let loaded = false;
+	const filterCategories = async (_items, _, s) => {
+		if (!$selectedCategories?.length) return _items;
+		return _items
+			.filter((item) => {
 				return $selectedCategories
 					.map((element) => {
 						return element.toLowerCase();
 					})
 					.includes(item.category.toLowerCase());
-			}
-			return true;
-		})
-		.filter((item) => {
-			if ($search) {
-				return item.title.toLowerCase().includes($search.toLowerCase());
-			}
-			return true;
-		})
-		.slice(0, isTruncated ? 2 : items.length);		
+			})
+			.filter((item) => item.toString().toLowerCase().includes(s));
+	};
+
+	$: searchFn = filterCategories;
+	function loadsearchFn() {
+		if (loaded) return;
+		import('./fuzzySearch').then((fuzzy) => {
+			searchFn = fuzzy.fuzzySearch;
+			loaded = true;
+		});
+	}
+	if ($search) loadsearchFn()
+
+	/** @type import('$lib/types').ContentItem[]  */
+	let list;
+	$: searchFn(items, $selectedCategories, $search).then(_items => list = _items);
 </script>
 
 <svelte:head>
-	<title>{SITE_TITLE} Blog Index</title>
+	<title>{SITE_TITLE} Blog</title>
 	<meta name="description" content={`Latest ${SITE_TITLE} posts`} />
 </svelte:head>
 
@@ -59,6 +73,7 @@
 			type="text"
 			bind:value={$search}
 			bind:this={inputEl}
+			on:focus={loadsearchFn}
 			placeholder="Search blogs and talks"
 			class="block w-full px-4 py-2 text-gray-900 bg-white border border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
 		/><svg
@@ -116,7 +131,7 @@
 		</h3>
 	{/if}
 
-	{#if list.length}
+	{#if list?.length}
 		<ul class="">
 			{#each list as item}
 				<li class="mb-8 text-lg">					

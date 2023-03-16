@@ -8,14 +8,10 @@
 	export let title = 'Untitled post';
 	/** @type {string} */
 	export let stringData;
-
-	console.log(item);
 </script>
 
 <a
 	class="w-full text-gray-900 hover:text-blue-400 dark:text-gray-100"
-	target="_blank"
-	rel="noreferrer"
 	{href}
 >
 	<div class="mb-8 flex flex-row">
@@ -48,6 +44,15 @@
 				<button class="rounded-xl bg-gray-200 px-4 capitalize dark:bg-gray-700 dark:text-gray-400"
 					>{item?.category || 'blog'}</button
 				>
+				{#if item?.tags?.length}
+				<div class="hidden md:block flex-1">
+					{#each item.tags as tag}
+						<span class="px-1">
+							#{tag}
+						</span>
+					{/each}
+				</div>
+			{/if}
 			</div>
 		</div>
 		{#if item?.ytID}

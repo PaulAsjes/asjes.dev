@@ -59,6 +59,16 @@
 
 <div class="mx-auto max-w-5xl w-2/3 flex justify-center">
 	<div class="flex flex-col justify-center max-w-5xl w-2/3">
+		{#if json?.tags?.length}
+		<p class="!text-slate-400 flex-auto mb-4 italic">
+			Tagged in: 
+			{#each json.tags as tag}
+				<span class="px-1">
+					<a href={`/blog?filter=hashtag-${tag}`}>#{tag}</a>
+				</span>
+			{/each}
+		</p>
+		{/if}		
 		<div class="prose mb-12 p-4 dark:prose-invert">
 			{#if json.ghMetadata.reactions.total_count > 0}
 				Reactions: <Reactions
