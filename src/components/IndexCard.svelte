@@ -13,7 +13,7 @@
 </script>
 
 <a
-	class="w-full text-gray-900 hover:text-yellow-600 dark:text-gray-100 dark:hover:text-yellow-100"
+	class="w-full text-gray-900 hover:text-blue-400 dark:text-gray-100"
 	target="_blank"
 	rel="noreferrer"
 	{href}

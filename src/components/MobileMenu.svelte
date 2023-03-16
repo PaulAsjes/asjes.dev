@@ -90,15 +90,9 @@
 				<a
 					class="flex w-auto pb-4"
 					on:click={() => setTimeout(() => (isOpen = false), 300)}
-					href="https://github.com/sw-yx/swyxkit">GitHub</a
+					href="/talks">Talks</a
 				>
 			</li>
-			<!-- <li
-			class="border-b border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 font-semibold"
-			style="transition-delay: 325ms;"
-		>
-			<a class="flex w-auto pb-4" on:click={() => setTimeout(() => isOpen = false, 200)} href="/tweets">Tweets</a>
-		</li> -->
 		</ul>
 	{/if}
 </div>
