@@ -66,11 +66,11 @@
 			<div class="flex flex-col gap-6 md:flex-row justify-center">
 				<FeatureCard 
 					title="Designing APIs for humans: Object IDs " 
-					href="/welcome" 
+					href="/designing-apis-for-humans-object-ids" 
 					stringData="August 2022" />
 				<FeatureCard
 					title="Designing APIs for humans: Error messages"
-					href="/moving-to-a-github-cms"
+					href="/designing-apis-for-humans-error-messages"
 					stringData="September 2022"
 				/>
 			</div>

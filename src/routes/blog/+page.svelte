@@ -64,8 +64,7 @@
 		Blog
 	</h1>
 	<p class="mb-4 text-gray-600 dark:text-gray-400">
-		You can find my writings here, or on Stripe's <a href="https://dev.to/stripe" rel="noreferrer" target="_blank">dev.to</a> page. In total, I've written {items.length} articles on my personal blog. Use the search below to
-		filter by title.
+		You can find my writings here, or on Stripe's <a href="https://dev.to/stripe" rel="noreferrer" target="_blank">dev.to</a> page. Use the search below to	filter by title.
 	</p>
 	<div class="relative w-full mb-4">
 		<input
