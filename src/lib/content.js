@@ -15,15 +15,6 @@ import rehypeStringify from 'rehype-stringify';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutoLink from 'rehype-autolink-headings';
 
-// Fix for 
-import prism from 'prismjs';
-import 'prismjs/components/prism-bash.js';
-import 'prismjs/components/prism-dart.js';
-import 'prismjs/components/prism-diff.js';
-import 'prismjs/components/prism-typescript.js';
-import 'prismjs/components/prism-jsx';
-import 'prism-svelte';
-
 const remarkPlugins = undefined;
 const rehypePlugins = [
 	rehypeStringify,
