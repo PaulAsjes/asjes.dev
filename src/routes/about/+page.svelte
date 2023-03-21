@@ -6,7 +6,7 @@
   <h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">About me</h1>
   <div class="space-y-4">
     <p>
-      Hello, I'm Paul Asjes. I work as a Developer Advocacy Engineering Manager at Stripe. My main focus points are raising awareness, being the voice of the developer and giving internal teams what they need to build great products.
+      Hello, I'm Paul Asjes. I work as a Developer Advocacy Engineering Manager at Stripe. My main focus is raising awareness, being the voice of the developer and giving internal teams what they need to build great products.
     </p>
     <p>
       Before shifting to Developer Relations I was a product engineer for 10+ years, working at Tumblr and various start ups over the years. I began as a Flash developer back in the stone age of the internet, now preferring to work in the JavaScript ecosystem.
