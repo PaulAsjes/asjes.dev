@@ -45,6 +45,14 @@
 			>
 				Source
 			</a>
+			<a
+				class="text-gray-500 transition hover:text-blue-400 hover:no-underline"
+				target="_blank"
+				rel="noopener noreferrer"
+				href="mailto:hello@asjes.dev"
+			>
+				Contact
+			</a>
 		</div>
 		<div class="my-5 flex w-full justify-center">
 			<p class="prose px-4 text-xs dark:prose-invert sm:px-10">

@@ -58,6 +58,9 @@
 				<NavLink href="/talks">Talks</NavLink>
 			</li>
 			<li>
+				<NavLink href="/about">About</NavLink>
+			</li>
+			<li>
 				<a
 					class="rounded-lg text-gray-700 hover:text-blue-400 dark:hover:text-blue-400 dark:text-gray-200"
 					href={'https://twitter.com/intent/follow?screen_name=' + MY_TWITTER_HANDLE}
