@@ -2,7 +2,7 @@
   import { MY_TWITTER_HANDLE } from '$lib/siteConfig';
 </script>
 
-<section class="flex flex-col items-start justify-center max-w-5xl w-2/3 px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
+<section class="flex flex-col items-start justify-center max-w-5xl px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
   <h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">About me</h1>
   <div class="space-y-4">
     <p>
@@ -14,14 +14,14 @@
   </div>  
 </section>
 
-<section class="flex flex-col items-start justify-center max-w-5xl w-2/3 px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
+<section class="flex flex-col items-start justify-center max-w-5xl px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
   <h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">Contact</h1>
   <p>
     If you want to get a hold of me, the best way is via <a href={`https://twitter.com/${MY_TWITTER_HANDLE}`} class="dark:text-blue-400">Twitter</a> or you can <a href="mailto:hello@asjes.dev" class="dark:text-blue-400">email</a> me directly. If inquiring about speaking at a conference, please include the dates, location, type of conference and talk type in your message.
   </p>
 </section>
 
-<section class="flex flex-col items-start justify-center max-w-5xl w-2/3 px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
+<section class="flex flex-col items-start justify-center max-w-5xl w-full px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
   <h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">Uses</h1>
   
   <div class="m-4">
