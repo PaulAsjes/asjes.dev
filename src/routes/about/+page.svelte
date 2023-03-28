@@ -2,6 +2,12 @@
   import { MY_TWITTER_HANDLE } from '$lib/siteConfig';
 </script>
 
+<section class="flex justify-center">
+  <div class="m-4 w-[150px] h-[150px] rounded-full sm:w-[250px] sm:h-[250px] relative">
+    <img src="/about-profile.jpg" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
+  </div>
+</section>
+
 <section class="flex flex-col items-start justify-center max-w-5xl px-4 mx-auto sm:px-8 py-8 text-black dark:text-white">
   <h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">About me</h1>
   <div class="space-y-4">

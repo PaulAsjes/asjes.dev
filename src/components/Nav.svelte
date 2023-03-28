@@ -44,8 +44,7 @@
 	dark:text-gray-100 sm:pb-8 will-change-scroll transition ease-in-out duration-300"
 	style="transform: translate(0, {hideNav ? -100 : 0}px"
 >	
-	<div class="flex items-center justify-evenly w-full max-w-5xl">
-		<a href="#skip" class="skip-nav">Skip to content</a>
+	<div class="flex items-center justify-evenly w-full max-w-5xl mr-4 md:mr-0">
 		<MobileMenu />
 		<ul class="ml-[-0.60rem] flex justify-between w-full">
 			<li>
@@ -153,18 +152,3 @@
 		</ul>
 	</div>	
 </nav>
-
-<style>
-	.skip-nav {
-		position: absolute;
-		left: -25%;
-		top: -2rem;
-		--tw-translate-y: -3rem;
-		padding: 0.75rem 1rem;
-		transition-property: transform;
-		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-		transition-duration: 0.2s;
-	}
-
-
-</style>

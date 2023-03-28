@@ -14,7 +14,7 @@
 	}
 </script>
 
-<div class="ml-[-0.60rem] md:hidden">
+<div class="ml-[0.60rem] md:hidden">
 	<button
 		class="burger visible"
 		aria-label="Toggle menu"
@@ -60,7 +60,7 @@
 	</button>
 	{#if isOpen}
 		<ul
-			class="menu absolute flex flex-col bg-gray-50 text-2xl  uppercase dark:bg-gray-900"
+			class="menu absolute flex flex-col bg-gray-50 text-2xl uppercase dark:bg-gray-900"
 			class:menuRendered={isMenuRendered}
 		>
 			<li
@@ -68,7 +68,7 @@
 				style="transition-delay: 150ms;"
 			>
 				<a
-					class="flex w-auto pb-4"
+					class="flex w-auto pb-4 pl-4"
 					on:click={() => setTimeout(() => (isOpen = false), 300)}
 					href="/">Home</a
 				>
@@ -78,7 +78,7 @@
 				style="transition-delay: 250ms;"
 			>
 				<a
-					class="flex w-auto pb-4"
+					class="flex w-auto pb-4 pl-4"
 					on:click={() => setTimeout(() => (isOpen = false), 300)}
 					href="/blog">Blog</a
 				>
@@ -88,7 +88,7 @@
 				style="transition-delay: 400ms;"
 			>
 				<a
-					class="flex w-auto pb-4"
+					class="flex w-auto pb-4 pl-4"
 					on:click={() => setTimeout(() => (isOpen = false), 300)}
 					href="/talks">Talks</a
 				>
@@ -98,7 +98,7 @@
 				style="transition-delay: 400ms;"
 			>
 				<a
-					class="flex w-auto pb-4"
+					class="flex w-auto pb-4 pl-4"
 					on:click={() => setTimeout(() => (isOpen = false), 300)}
 					href="/about">About</a
 				>

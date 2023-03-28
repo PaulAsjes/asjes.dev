@@ -10,7 +10,6 @@
 
 	export const prerender = true; // index page is most visited, lets prerender
 
-
 	/** @type {import('./$types').PageData} */
 	export let data;
 	// technically this is a slightly different type because doesnt have 'content' but we'll let it slide
@@ -47,7 +46,7 @@
 					<p>Developer Advocate &</p> 
 					<p>Engineering Manager.</p>
 				</div>
-				<div class="w-[80px] h-[80px] rounded-full sm:w-[176px] sm:h-[136px] relative">
+				<div class="w-[150px] h-[150px] rounded-full sm:w-[176px] sm:h-[136px] relative">
 					<img src="/profile.png" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
 				</div>
 			</h2>
