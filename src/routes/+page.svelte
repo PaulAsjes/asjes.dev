@@ -72,6 +72,11 @@
 					href="/designing-apis-for-humans-error-messages"
 					stringData="September 2022"
 				/>
+				<FeatureCard
+					title="Designing APIs for humans: Design patterns"
+					href="/designing-apis-for-humans-design-patterns"
+					stringData="July 2023"
+				/>
 			</div>
 		</div>
 	</section>
