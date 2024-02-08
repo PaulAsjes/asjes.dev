@@ -1,4 +1,4 @@
-<script>	
+<script>
 	import FeatureCard from '../components/FeatureCard.svelte';
 	import {
 		SITE_URL,
@@ -33,40 +33,41 @@
 	<meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
 </svelte:head>
 
-<div
-	class="flex flex-col justify-center w-full pt-4 mx-auto border-gray-200 dark:border-gray-700"
->
+<div class="flex flex-col justify-center w-full pt-4 mx-auto border-gray-200 dark:border-gray-700">
 	<section class="flex justify-center mb-16 pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
 			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black dark:text-white md:text-2xl">
 				Paul Asjes
 			</h1>
 			<h2 class="flex justify-between mb-4 text-gray-700 dark:text-gray-200 text-5xl">
-				<div>	
-					<p>Developer Advocate &</p> 
+				<div>
+					<p>Developer Advocate &</p>
 					<p>Engineering Manager.</p>
 				</div>
 				<div class="w-[150px] h-[150px] rounded-full sm:w-[176px] sm:h-[136px] relative">
-					<img src="/profile.png" class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400" alt="Paul Asjes" />
+					<img
+						src="/profile.png"
+						class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400"
+						alt="Paul Asjes"
+					/>
 				</div>
 			</h2>
-			<p class="text-black dark:text-white">Hi, I'm Paul. I'm a dad x 2 and a Developer Relations Engineering Manager at Stripe. </p>
-		</div>		
+			<p class="text-black dark:text-white">
+				Hi, I'm Paul. I'm a dad x 2 and a Developer Experience Engineer at WorkOS.
+			</p>
+		</div>
 	</section>
 
 	<section class="flex justify-center bg-zinc-900 pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
-			<h1 class="mb-3 text-2xl font-bold tracking-tight text-white md:text-2xl">
-				Writing
-			</h1>
-			<h3 class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">
-				Featured Posts
-			</h3>
+			<h1 class="mb-3 text-2xl font-bold tracking-tight text-white md:text-2xl">Writing</h1>
+			<h3 class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">Featured Posts</h3>
 			<div class="flex flex-col gap-6 md:flex-row justify-center">
-				<FeatureCard 
-					title="Designing APIs for humans: Object IDs " 
-					href="/designing-apis-for-humans-object-ids" 
-					stringData="August 2022" />
+				<FeatureCard
+					title="Designing APIs for humans: Object IDs "
+					href="/designing-apis-for-humans-object-ids"
+					stringData="August 2022"
+				/>
 				<FeatureCard
 					title="Designing APIs for humans: Error messages"
 					href="/designing-apis-for-humans-error-messages"
@@ -80,7 +81,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<section class="flex justify-center bg-zinc-800 pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
 			<h3 id="latest" class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">
@@ -89,8 +90,14 @@
 			<ul class="space-y-2 text-white">
 				{#each items as item (item.slug)}
 					<li>
-						<a class="font-bold text-blue-400 dark:text-blue-400" data-sveltekit-preload-data href={item.slug}>{item.title}</a>
-						<span class="hidden text-xs text-gray-400 sm:inline">{new Date(item.date).toISOString().slice(0, 10)}</span>
+						<a
+							class="font-bold text-blue-400 dark:text-blue-400"
+							data-sveltekit-preload-data
+							href={item.slug}>{item.title}</a
+						>
+						<span class="hidden text-xs text-gray-400 sm:inline"
+							>{new Date(item.date).toISOString().slice(0, 10)}</span
+						>
 					</li>
 				{/each}
 			</ul>
@@ -114,31 +121,28 @@
 					/>
 				</svg>
 			</a>
-		</div>		
+		</div>
 	</section>
 
 	<section class="flex justify-center bg-white pt-6 pb-6 w-full">
 		<div class="flex flex-col max-w-5xl w-3/4">
-			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black md:text-2xl">
-				Speaking
-			</h1>
-			<h1 class="mb-6 text-2xl font-bold tracking-tight text-black md:text-4xl">
-				Featured Talks
-			</h1>
+			<h1 class="mb-3 text-2xl font-bold tracking-tight text-black md:text-2xl">Speaking</h1>
+			<h1 class="mb-6 text-2xl font-bold tracking-tight text-black md:text-4xl">Featured Talks</h1>
 			<div class="flex flex-col gap-6 md:flex-row">
-				<FeatureCard 
-					title="Dinos and Clouds: Node apps for Deno and Cloudflare Workers" 
-					href="https://www.youtube.com/watch?v=abA7dIP2BKc" 
-					stringData="May 2022" />
+				<FeatureCard
+					title="Dinos and Clouds: Node apps for Deno and Cloudflare Workers"
+					href="https://www.youtube.com/watch?v=abA7dIP2BKc"
+					stringData="May 2022"
+				/>
 				<FeatureCard
 					title="Card Testing: A Developer’s Guide to Fighting Against the Dark Web"
 					href="https://www.youtube.com/watch?v=sZKTWVDnBAQ"
 					stringData="March 2022"
 				/>
-				<FeatureCard 
-					title="Making It All Fit Together with React and GraphQL" 
-					href="https://www.youtube.com/watch?v=EjJVf2s60s8" 
-					stringData="July 2019" 
+				<FeatureCard
+					title="Making It All Fit Together with React and GraphQL"
+					href="https://www.youtube.com/watch?v=EjJVf2s60s8"
+					stringData="July 2019"
 				/>
 			</div>
 		</div>
