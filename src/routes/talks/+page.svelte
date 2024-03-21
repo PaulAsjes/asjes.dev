@@ -9,6 +9,18 @@
 
 <section class="flex flex-col items-start justify-center max-w-5xl px-4 mx-auto mb-16 sm:px-8 py-8">
   <IndexCard 
+    href="https://www.youtube.com/watch?v=DvDu7Dyhysw" 
+    title="Avoiding Footguns in Your Payments Stack" 
+    item={{
+      category: 'talk', 
+      ytID: 'DvDu7Dyhysw',
+      date: new Date(2023, 3, 30),
+    }}
+  >
+  The Big Fix 2023
+  </IndexCard>
+
+  <IndexCard 
     href="https://www.youtube.com/watch?v=abA7dIP2BKc" 
     title="Dinos and Clouds: Node apps for Deno and Cloudflare Workers" 
     item={{
