@@ -3,17 +3,17 @@
 </script>
 
 <section class="flex justify-center">
-	<div class="m-4 w-[150px] h-[150px] rounded-full sm:w-[250px] sm:h-[250px] relative">
+	<div class="relative m-4 h-[150px] w-[150px] rounded-full sm:h-[250px] sm:w-[250px]">
 		<img
 			src="/about-profile.jpg"
-			class="rounded-full filter p-1 bg-gradient-to-r from-white to-blue-400"
+			class="rounded-full bg-gradient-to-r from-white to-blue-400 p-1 filter"
 			alt="Paul Asjes"
 		/>
 	</div>
 </section>
 
 <section
-	class="flex flex-col items-start justify-center max-w-5xl px-4 mx-auto sm:px-8 py-8 text-black dark:text-white"
+	class="mx-auto flex max-w-5xl flex-col items-start justify-center px-4 py-8 text-black dark:text-white sm:px-8"
 >
 	<h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">About me</h1>
 	<div class="space-y-4">
@@ -23,15 +23,16 @@
 			great products.
 		</p>
 		<p>
-			Before shifting to Developer Relations I was a product engineer for 10+ years, working at
-			Tumblr and various start ups over the years. I started my career as a Flash developer back in
-			the stone age of the internet, now preferring to work in the JavaScript ecosystem.
+			Prior to WorkOS I ran Developer Relations at Stripe. Before that I was a product engineer for
+			10+ years, working at Tumblr and various start ups over the years. I started my career as a
+			Flash developer back in the stone age of the internet, now preferring to work in the
+			JavaScript ecosystem.
 		</p>
 	</div>
 </section>
 
 <section
-	class="flex flex-col items-start justify-center max-w-5xl px-4 mx-auto sm:px-8 py-8 text-black dark:text-white"
+	class="mx-auto flex max-w-5xl flex-col items-start justify-center px-4 py-8 text-black dark:text-white sm:px-8"
 >
 	<h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">Contact</h1>
 	<p>
@@ -46,12 +47,12 @@
 </section>
 
 <section
-	class="flex flex-col items-start justify-center max-w-5xl w-full px-4 mx-auto sm:px-8 py-8 text-black dark:text-white"
+	class="mx-auto flex w-full max-w-5xl flex-col items-start justify-center px-4 py-8 text-black dark:text-white sm:px-8"
 >
 	<h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">Uses</h1>
 
 	<div class="m-4">
-		<h2 class="text-xl font-bold mb-2">Website</h2>
+		<h2 class="mb-2 text-xl font-bold">Website</h2>
 		<ul class="list-disc">
 			<li><a href="https://svelte.dev/" class="dark:text-blue-400">Svelte</a></li>
 			<li><a href="https://swyxkit.netlify.app/" class="dark:text-blue-400">Swyxkit</a></li>
@@ -60,7 +61,7 @@
 	</div>
 
 	<div class="m-4">
-		<h2 class="text-xl font-bold mb-2">Software</h2>
+		<h2 class="mb-2 text-xl font-bold">Software</h2>
 		<ul class="list-disc">
 			<li>
 				VSCode (with <a
