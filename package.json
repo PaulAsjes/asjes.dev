@@ -64,7 +64,7 @@
 		"vite": "^4.0.1"
 	},
 	"engines": {
-		"node": ">=20.11"
+		"node": ">=18.x"
 	},
 	"type": "module",
 	"dependencies": {
