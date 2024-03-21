@@ -63,9 +63,6 @@
 		"vfile-reporter": "^7.0.4",
 		"vite": "^4.0.1"
 	},
-	"engines": {
-		"node": ">=18.x"
-	},
 	"type": "module",
 	"dependencies": {
 		"@leeoniya/ufuzzy": "^1.0.6",
