@@ -8,8 +8,6 @@
 		MY_TWITTER_HANDLE
 	} from '$lib/siteConfig';
 
-	export const prerender = true; // index page is most visited, lets prerender
-
 	/** @type {import('./$types').PageData} */
 	export let data;
 	// technically this is a slightly different type because doesnt have 'content' but we'll let it slide

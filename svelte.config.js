@@ -1,5 +1,5 @@
 import preprocess from 'svelte-preprocess';
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-vercel';
 import { mdsvex } from 'mdsvex';
 import remarkGithub from 'remark-github';
 import remarkAbbr from 'remark-abbr';
@@ -17,7 +17,7 @@ const mdsvexConfig = {
 			remarkGithub,
 			{
 				// Use your own repository
-				repository: 'https://github.com/mvasigh/sveltekit-mdsvex-blog.git'
+				repository: 'https://github.com/paulasjes/asjes.dev'
 			}
 		],
 		remarkAbbr
@@ -45,7 +45,7 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			runtime: 'edge',
+			runtime: 'nodejs18.x'
 		})
 	}
 };
