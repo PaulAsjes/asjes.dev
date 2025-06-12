@@ -64,7 +64,7 @@
 		Blog
 	</h1>
 	<p class="mb-4 text-gray-600 dark:text-gray-400">
-		You can find my writings here, or on Stripe's <a href="https://dev.to/stripe" rel="noreferrer" target="_blank">dev.to</a> page. Use the search below to	filter by title.
+		You can find my writings here, or on <a href="https://dev.to/paulasjes" rel="noreferrer" target="_blank">dev.to</a>. Use the search below to	filter by title.
 	</p>
 	<div class="relative w-full mb-4">
 		<input
@@ -89,7 +89,7 @@
 			/></svg
 		>
 	</div>
-	
+
 	<!-- if you have multiple categories enabled -->
 	{#if POST_CATEGORIES.length > 1}
 	<div class="flex items-center mt-2 mb-12 ">
@@ -133,7 +133,7 @@
 	{#if list?.length}
 		<ul class="">
 			{#each list as item}
-				<li class="mb-8 text-lg">					
+				<li class="mb-8 text-lg">
 					<IndexCard
 						href={item.slug}
 						title={item.title}
