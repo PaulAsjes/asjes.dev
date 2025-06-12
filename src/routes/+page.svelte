@@ -51,7 +51,7 @@
 				</div>
 			</h2>
 			<p class="text-black dark:text-white">
-				Hi, I'm Paul. I'm a dad x 2 and a Developer Experience Engineer at WorkOS.
+				Hi, I'm Paul. I'm a dad x 2 and a Developer Experience Engineer at ElevenLabs.
 			</p>
 		</div>
 	</section>

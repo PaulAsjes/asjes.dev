@@ -18,12 +18,12 @@
 	<h1 class="mb-4 text-3xl font-bold tracking-tight md:text-5xl">About me</h1>
 	<div class="space-y-4">
 		<p>
-			Hello, I'm Paul Asjes. I work as a Developer Experience Engineer at WorkOS. I focus on raising
+			Hello, I'm Paul Asjes. I work as a Developer Experience Engineer at ElevenLabs. I focus on raising
 			awareness, being the voice of the developer and giving internal teams what they need to build
 			great products.
 		</p>
 		<p>
-			Prior to WorkOS I ran Developer Relations at Stripe. Before that I was a product engineer for
+			Prior to ElevenLabs I ran Developer Relations at Stripe. Before that I was a product engineer for
 			10+ years, working at Tumblr and various start ups over the years. I started my career as a
 			Flash developer back in the stone age of the internet, now preferring to work in the
 			JavaScript ecosystem.
@@ -64,7 +64,7 @@
 		<h2 class="mb-2 text-xl font-bold">Software</h2>
 		<ul class="list-disc">
 			<li>
-				VSCode (with <a
+				Cursor (with <a
 					href="https://draculatheme.com/visual-studio-code"
 					class="dark:text-blue-400">Dracula</a
 				> theme)
