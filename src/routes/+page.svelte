@@ -62,6 +62,11 @@
 			<h3 class="mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">Featured Posts</h3>
 			<div class="flex flex-col gap-6 md:flex-row justify-center">
 				<FeatureCard
+					title="Self-Healing APIs with MCP: No more SDKs"
+					href="/self-healing-apis-with-mcp-no-more-sdks"
+					stringData="June 2025"
+				/>
+				<FeatureCard
 					title="Designing APIs for humans: Object IDs "
 					href="/designing-apis-for-humans-object-ids"
 					stringData="August 2022"
@@ -70,11 +75,6 @@
 					title="Designing APIs for humans: Error messages"
 					href="/designing-apis-for-humans-error-messages"
 					stringData="September 2022"
-				/>
-				<FeatureCard
-					title="Designing APIs for humans: Design patterns"
-					href="/designing-apis-for-humans-design-patterns"
-					stringData="July 2023"
 				/>
 			</div>
 		</div>
