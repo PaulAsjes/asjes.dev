@@ -39,7 +39,7 @@
 			</h1>
 			<h2 class="flex justify-between mb-4 text-gray-700 dark:text-gray-200 text-5xl">
 				<div>
-					<p>Developer Advocate &</p>
+					<p>DX Engineer &</p>
 					<p>Engineering Manager.</p>
 				</div>
 				<div class="w-[150px] h-[150px] rounded-full sm:w-[176px] sm:h-[136px] relative">
