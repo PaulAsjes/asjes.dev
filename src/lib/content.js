@@ -14,6 +14,7 @@ import remarkStringify from 'remark-stringify';
 import rehypeStringify from 'rehype-stringify';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutoLink from 'rehype-autolink-headings';
+import Prism from 'prismjs';
 
 const remarkPlugins = undefined;
 const rehypePlugins = [
@@ -179,7 +180,7 @@ export async function getContent(providedFetch, slug) {
 				const url = x.startsWith('https://twitter.com/') ? x : `https://twitter.com/x/status/${x}`;
 				return `
 					<blockquote class="twitter-tweet" data-lang="en" data-dnt="true" data-theme="dark">
-					<a href="${url}"></a></blockquote> 
+					<a href="${url}"></a></blockquote>
 					<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 					`;
 			});
@@ -189,7 +190,17 @@ export async function getContent(providedFetch, slug) {
 			await compile(blogbody, {
 				remarkPlugins,
 				// @ts-ignore
-				rehypePlugins
+				rehypePlugins,
+				highlight: {
+					highlighter: (code, lang) => {
+						// Use basic highlighting for supported languages, plain text otherwise
+						if (lang && Prism.languages[lang]) {
+							return Prism.highlight(code, Prism.languages[lang], lang);
+						}
+						// Return plain code block for unsupported languages
+						return `<pre class="language-${lang || 'text'}"><code>${code}</code></pre>`;
+					}
+				}
 			})
 		).code
 			// https://github.com/pngwn/MDsveX/issues/392
@@ -224,7 +235,7 @@ function parseIssue(issue) {
 		.processSync(description)
 		.toString();
 	description = description.replace(/\n/g, ' ');
-	// strip html	
+	// strip html
 	description = description.replace(/<[^>]*>?/gm, '');
 	// strip markdown
 	// description = description.replace(/[[\]]/gm, '');
