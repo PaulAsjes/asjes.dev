@@ -6,17 +6,8 @@ import remarkAbbr from 'remark-abbr';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
-// Pre-load PrismJS and its components to avoid dynamic loading issues
+// Simple approach - just load core PrismJS without extra components
 import Prism from 'prismjs';
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-sql';
-import 'prismjs/components/prism-yaml';
-import 'prismjs/components/prism-markdown';
 
 // mdsvex config
 const mdsvexConfig = {
@@ -26,10 +17,12 @@ const mdsvexConfig = {
 	},
 	highlight: {
 		highlighter: (code, lang) => {
+			// Use basic highlighting for supported languages, plain text otherwise
 			if (lang && Prism.languages[lang]) {
 				return Prism.highlight(code, Prism.languages[lang], lang);
 			}
-			return code;
+			// Return plain code block for unsupported languages
+			return `<pre class="language-${lang || 'text'}"><code>${code}</code></pre>`;
 		}
 	},
 	remarkPlugins: [
