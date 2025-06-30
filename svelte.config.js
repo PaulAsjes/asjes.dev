@@ -12,6 +12,7 @@ const mdsvexConfig = {
 	layout: {
 		_: './src/mdsvexlayout.svelte' // default mdsvex layout
 	},
+	// Let mdsvex use default PrismJS highlighting
 	remarkPlugins: [
 		[
 			remarkGithub,

@@ -15,8 +15,8 @@ body {
 	min-height: 100vh;
 	margin: 0;
 
-	/* 
-		CUSTOM SCROLLBARS! 
+	/*
+		CUSTOM SCROLLBARS!
 		- https://css-tricks.com/strut-your-stuff-with-a-custom-scrollbar/
 		*/
 	/* --scrollbar-primary-color: #3730a3; */
@@ -49,9 +49,11 @@ pre {
 }
 
 
+
+
 @layer components {
 	body {
-		--brand-accent: #60A5FA
+		--brand-accent: #60A5FA;
 		/* https://ishadeed.com/article/defensive-css */
 		overflow-wrap: break-word;
 		overflow-y: auto;
