@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-black: #000000;
+  --color-surface: #0f0f0f;
+  --color-white: #f0ece4;
+  --color-off-white: #b8b4ac;
+  --color-red: #cc0000;
+  --color-red-dark: #8b0000;
+  --color-muted: #555555;
+  --color-border: #1a1a1a;
+
+  /* Fonts — fontsource self-hosted */
+  --font-heading: "Bebas Neue", Impact, sans-serif;
+  --font-body: "Space Mono", "Courier New", monospace;
+  --font-mono: "Space Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #000;
+  color: #f0ece4;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Grain texture overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Headings default to Bebas Neue */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-bebas), Impact, sans-serif;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* Prose styles for blog post content */
+.prose {
+  max-width: 68ch;
+  color: #f0ece4;
+  line-height: 1.75;
+}
+
+.prose h1 {
+  font-size: 2.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose h2 {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose a {
+  color: #cc0000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+
+.prose a:hover {
+  color: #f0ece4;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose ul {
+  list-style-type: square;
+}
+
+.prose li {
+  margin-bottom: 0.35rem;
+}
+
+.prose li::marker {
+  color: #cc0000;
+}
+
+.prose blockquote {
+  border-left: 3px solid #cc0000;
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-bottom: 1.25rem;
+  color: #b8b4ac;
+  font-style: italic;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid #1a1a1a;
+  margin: 2rem 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #1a1a1a;
+}
+
+.prose strong {
+  color: #f0ece4;
+  font-weight: 700;
+}
+
+.prose em {
+  color: #b8b4ac;
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.85em;
+  background: #0f0f0f;
+  color: #cc0000;
+  padding: 0.1em 0.35em;
+  border: 1px solid #1a1a1a;
+}
+
+/* Code blocks via rehype-pretty-code */
+.prose pre {
+  background: #0f0f0f !important;
+  border: 1px solid #1a1a1a;
+  border-left: 3px solid #cc0000;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.prose pre code {
+  background: none !important;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+[data-rehype-pretty-code-figure] pre {
+  background: #0f0f0f !important;
+}
+
+/* Table styles */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.prose th {
+  border-bottom: 2px solid #cc0000;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 700;
+  color: #cc0000;
+}
+
+.prose td {
+  border-bottom: 1px solid #1a1a1a;
+  padding: 0.5rem 0.75rem;
+}
