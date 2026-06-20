@@ -66,7 +66,7 @@ export default function AboutPage() {
       </div>
 
       {/* Contact */}
-      <section className="mb-16">
+      <section>
         <h2 className="font-heading mb-3 text-4xl tracking-widest text-white sm:text-5xl">
           CONTACT
         </h2>
@@ -93,91 +93,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      {/* Uses */}
-      <section>
-        <h2 className="font-heading mb-3 text-4xl tracking-widest text-white sm:text-5xl">
-          USES
-        </h2>
-        <div className="mb-8 border-b border-border" />
-        <div className="grid gap-8 sm:grid-cols-2">
-          <div>
-            <h3 className="font-heading mb-4 text-2xl tracking-widest text-red">
-              WEBSITE
-            </h3>
-            <ul className="font-body space-y-2 text-sm text-off-white">
-              <li>
-                <a
-                  href="https://nextjs.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red underline underline-offset-4 transition-colors hover:text-white"
-                >
-                  Next.js
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://tailwindcss.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red underline underline-offset-4 transition-colors hover:text-white"
-                >
-                  Tailwind CSS
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://vercel.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red underline underline-offset-4 transition-colors hover:text-white"
-                >
-                  Vercel
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-heading mb-4 text-2xl tracking-widest text-red">
-              SOFTWARE
-            </h3>
-            <ul className="font-body space-y-2 text-sm text-off-white">
-              <li>
-                Cursor (with{" "}
-                <a
-                  href="https://draculatheme.com/visual-studio-code"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red underline underline-offset-4 transition-colors hover:text-white"
-                >
-                  Dracula
-                </a>{" "}
-                theme)
-              </li>
-              <li>
-                <a
-                  href="https://iterm2.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red underline underline-offset-4 transition-colors hover:text-white"
-                >
-                  iTerm2
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://bear.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-red underline underline-offset-4 transition-colors hover:text-white"
-                >
-                  Bear Notes
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }
