@@ -23,10 +23,9 @@ export default async function BlogPage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-8">
-      <h1 className="font-heading mb-2 text-6xl tracking-widest text-white sm:text-8xl">
+      <h1 className="font-heading mb-12 text-6xl tracking-widest text-white sm:text-8xl">
         BLOG
       </h1>
-      <div className="mb-12 h-0.5 w-16 bg-red" />
 
       {/* Tag filter */}
       {allTags.length > 0 && (
@@ -66,7 +65,7 @@ export default async function BlogPage({ searchParams }: Props) {
             <li key={post.slug}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="group block py-8 transition-colors hover:border-l-2 hover:border-l-red hover:pl-4"
+                className="group block border-l-2 border-l-transparent py-8 pl-4 transition-colors hover:border-l-red"
               >
                 <div className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
                   <span className="font-body text-xs tracking-widest text-muted uppercase">

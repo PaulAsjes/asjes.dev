@@ -11,10 +11,9 @@ export const metadata: Metadata = {
 export default function TalksPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-8">
-      <h1 className="font-heading mb-2 text-6xl tracking-widest text-white sm:text-8xl">
+      <h1 className="font-heading mb-6 text-6xl tracking-widest text-white sm:text-8xl">
         TALKS
       </h1>
-      <div className="mb-6 h-0.5 w-16 bg-red" />
       <p className="font-body mb-16 max-w-lg text-sm leading-relaxed text-off-white">
         Questions about any of the below, or want to suggest a topic?{" "}
         <a

@@ -66,7 +66,7 @@ export default async function BlogPost({ params }: Props) {
         <h1 className="font-heading mb-4 text-5xl leading-none tracking-wide text-white sm:text-7xl">
           {post.title.toUpperCase()}
         </h1>
-        <div className="mb-6 h-0.5 w-16 bg-red" />
+        <div className="mb-6 border-b border-border" />
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <time
             dateTime={post.date}

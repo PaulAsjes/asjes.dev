@@ -10,10 +10,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-8">
-      <h1 className="font-heading mb-2 text-6xl tracking-widest text-white sm:text-8xl">
+      <h1 className="font-heading mb-16 text-6xl tracking-widest text-white sm:text-8xl">
         ABOUT
       </h1>
-      <div className="mb-16 h-0.5 w-16 bg-red" />
 
       {/* Bio section */}
       <div className="mb-16 flex flex-col gap-12 sm:flex-row sm:items-start">
@@ -68,10 +67,10 @@ export default function AboutPage() {
 
       {/* Contact */}
       <section className="mb-16">
-        <h2 className="font-heading mb-2 text-4xl tracking-widest text-white sm:text-5xl">
+        <h2 className="font-heading mb-3 text-4xl tracking-widest text-white sm:text-5xl">
           CONTACT
         </h2>
-        <div className="mb-8 h-0.5 w-10 bg-red" />
+        <div className="mb-8 border-b border-border" />
         <p className="font-body max-w-xl text-sm leading-loose text-off-white">
           The best way to reach me is via{" "}
           <a
@@ -96,10 +95,10 @@ export default function AboutPage() {
 
       {/* Uses */}
       <section>
-        <h2 className="font-heading mb-2 text-4xl tracking-widest text-white sm:text-5xl">
+        <h2 className="font-heading mb-3 text-4xl tracking-widest text-white sm:text-5xl">
           USES
         </h2>
-        <div className="mb-8 h-0.5 w-10 bg-red" />
+        <div className="mb-8 border-b border-border" />
         <div className="grid gap-8 sm:grid-cols-2">
           <div>
             <h3 className="font-heading mb-4 text-2xl tracking-widest text-red">
