@@ -128,6 +128,21 @@ function issueToMdx(issue) {
       .filter(Boolean);
   }
 
+  // Transform shortcodes that MDX can't parse
+  content = content
+    // {% youtube <url-or-id> %} → JSX iframe
+    .replace(/\{%\s*(?:youtube|video)\s+(.*?)\s*%\}/g, (_, src) => {
+      const id = src.startsWith("http")
+        ? src.match(/(?:v=|youtu\.be\/)([^&?\s]+)/)?.[1] ?? src
+        : src.trim();
+      return `<iframe src="https://www.youtube.com/embed/${id}" title="YouTube video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{width:'100%',aspectRatio:'16/9',border:'none',marginBottom:'1rem'}} />`;
+    })
+    // {% tweet <url-or-id> %} → plain link (Twitter embeds need JS, skip them)
+    .replace(/\{%\s*(?:tweet|twitter)\s+(.*?)\s*%\}/g, (_, src) => {
+      const url = src.startsWith("http") ? src : `https://twitter.com/i/status/${src.trim()}`;
+      return `[View tweet](${url})`;
+    });
+
   // Build new frontmatter
   const fm = [
     "---",

@@ -1,0 +1,136 @@
+---
+title: "Designing APIs for humans: Object IDs"
+date: 2023-03-16
+description: "---"
+---
+
+---
+tags:
+ - API design
+ - IDs
+ - Stripe
+---
+## Choosing your ID type
+
+Regardless of what type of business you run, you very likely require a database to store important data like customer information or status of orders. Storing is just one part of it though; you also need a way to swiftly retrieve the data – which is where IDs come in.
+
+Also known as a primary key, IDs are what you use to uniquely specify a row in a table. When designing your table, you want a system where your IDs are easy to generate, unique and human readable.  
+
+The most simplistic approach you might take to IDs when using a [relational database](https://cloud.google.com/learn/what-is-a-relational-database) is to use the row ID, which is an integer. The idea here is that whenever you add a new row (i.e. a new customer is created) the ID would be the next sequential number. This sounds like a nice idea since it makes it easy to discuss in conversation ("Order 56 is having problems, can you take a look?"), plus it takes no work to set up. In practice however this is a security nightmare waiting to happen. Using integer IDs leaves you wide open to [enumeration attacks](https://www.upguard.com/blog/what-is-an-enumeration-attack), where it becomes trivially easy for malicious actors to guess IDs that they should not be able to since your IDs are sequential.
+
+For example, if I sign up to your service and discover that my user ID is "42", then I could make an educated guess that a user with the ID of "41" exists. Armed with that knowledge, I might be able to obtain sensitive data on user "41" that I absolutely shouldn't be allowed to, for instance an unsecured API endpoint like `/api/customers/:id/`. If the ID is something I _can't_ guess, then exploiting that endpoint becomes a lot harder.
+
+Integer IDs also mean you are likely leaking some very sensitive information about your company, like the size and success based on the number of customers and orders you have. After signing up and seeing that I'm only user number 42, I might doubt any claims you make in terms of how big your operation is.
+
+Instead you need to ensure that your IDs are unique and impossible to guess.
+
+A much better candidate for IDs is the [Universally Unique Identifier, or UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). It's a 32 digit mix of alphanumeric characters (and therefore stored as a string). Here's an example of one:
+
+`4c4a82ed-a3e1-4c56-aa0a-26962ddd0425`
+
+It's fast to generate, widely adopted, and collisions (the chance of a newly generated UUID having occurred before, or will occur in the future) are so vanishingly rare that it is considered one of the best ways to uniquely identify objects for your systems where uniqueness is important. 
+
+On the other hand, here's a Stripe object ID:
+
+`pi_3LKQhvGUcADgqoEM3bh6pslE`
+
+Ever wondered why Stripe uses this format specifically? Let's dive in and break down how and why Stripe IDs are structured the way they are.
+
+## Make it human readable
+
+```
+pi_3LKQhvGUcADgqoEM3bh6pslE
+└─┘└──────────────────────┘
+ └─ Prefix    └─ Randomly generated characters
+```
+
+You might have noticed that all Stripe Objects have a prefix at the beginning of the ID. The reason for this is quite simple: adding a prefix makes the ID **human readable**. Without knowing anything else about the ID we can immediately confirm that we're talking about a [PaymentIntent](https://stripe.com/docs/payments/payment-intents) object here, thanks to the `pi_` prefix.
+
+When you create a PaymentIntent via the API, you actually create or reference several other objects, including the Customer (`cus_`), PaymentMethod (`pm_`) and Charge (`ch_`). With prefixes you can immediately differentiate all these different objects at just a glance:
+
+```js
+$pi = $stripe->paymentIntents->create([
+  'amount' => 1000,
+  'currency' => 'usd',
+  'customer' => 'cus_MJA953cFzEuO1z',
+  'payment_method' => 'pm_1LaXpKGUcADgqoEMl0Cx0Ygg',
+]);
+```
+
+This helps Stripe employees internally just as much as it helps developers integrating with Stripe. For example, here's a code snippet I've seen before when asked to help debug an integration:
+
+```js
+$pi = $stripe->paymentIntents->retrieve(
+  $id,
+  [],
+  ['stripe_account' => 'cus_1KrJdMGUcADgqoEM']
+);
+```
+
+The above snippet is trying to retrieve a PaymentIntent [from a connected account](https://stripe.com/docs/api/connected_accounts), however without even looking at the code you can immediately spot the error: a Customer ID (`cus_`) is being used instead of an Account ID (`acct_`). Without prefixes this would be much harder to debug; if Stripe used UUIDs instead then we'd have to look up the ID (probably in the Stripe Dashboard) to find out what kind of object it is and if it's even valid.
+
+At Stripe we've gone so far as to develop an internal browser extension to automatically look up Stripe Objects based on their ID. Because we can infer the object type by the prefix, triple clicking on an ID automatically opens up the relevant internal page, making debugging so much easier.
+
+## Polymorphic lookups
+
+Speaking of inferring object types, this is especially relevant when designing APIs with backwards compatibility in mind.
+
+When creating a PaymentIntent, you can optionally provide a `payment_method` [parameter](https://stripe.com/docs/api/payment_intents/create?lang=php#create_payment_intent-payment_method) to indicate what type of payment instrument you'd like to use. You might not know that you can actually choose to provide a Source (`src_`) or Card (`card_`) ID instead of a PaymentMethod (`pm_`) ID here. PaymentMethods [replaced](https://stripe.com/docs/payments/payment-methods/transitioning) Sources and Cards as the canonical way to represent a payment instrument within Stripe, yet for backwards compatibility reasons we still need to be able to support these older objects.
+
+```js
+$pi = $stripe->paymentIntents->create([
+  'amount' => 1000,
+  'currency' => 'usd',
+  // This could be a PaymentMethod, Card or Source ID
+  'payment_method' => 'card_1LaRQ7GUcADgqoEMV11wEUxU',
+]);
+```
+
+Without prefixes, we'd have no way of knowing what kind of object the ID represents, meaning we don't know which table to query for the object data. Querying every single table to find one ID is extremely inefficient, so we need a better method. One way could be to require an additional "type" parameter:
+
+```js
+$pi = $stripe->paymentIntents->create([
+  'amount' => 1000,
+  'currency' => 'usd',
+  // Without prefixes, we'd have to supply a 'type'
+  'payment_method' => [
+    'type' => 'card',
+    'id' => '1LaRQ7GUcADgqoEMV11wEUxU'
+  ],
+]);
+```
+
+This would work, but this complicates our API with no additional gain. Rather than `payment_method` being a simple string, it's now a hash. Plus there's no additional information here that can't be combined into a single string. Whenever you use an ID, you'll want to know what type of object it represents, making combining these two types of information into one source a much better solution than requiring additional "type" parameters.
+
+With a prefix we can immediately infer whether the payment instrument is one of PaymentMethod, Source or Card and know which table to query despite these being completely different types of objects.
+
+## Preventing human error
+
+There are other less obvious benefits of prefixing, one being the ease of working with IDs when you can infer their type from the first few characters. For example, on the [Stripe Discord server](https://stripe.com/go/developer-chat) we use Discord's [AutoMod](https://discord.com/blog/automod-launch-automatic-community-moderation) feature to automatically flag and block messages that contain a Stripe live secret API key, which starts with `sk_live_`. Leaking such a sensitive key could have [drastic consequences](https://dev.to/stripe/building-secure-ecommerce-4lmj) for your business, so we take steps to avoid this happening in the environments that we control.
+
+By having keys start with `sk_live_`, writing a regex to filter out accidental leaks is trivial:
+
+![Using Discord's AutoMod tool to prevent secret key leaks](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dgcna3hdn99dholhnfor.png)
+
+This way we can prevent secret live API keys from leaking in our Discord, but allow the posting of test keys in the format `sk_test_123` (although you should absolutely keep those secret as well).
+
+Speaking of API keys, the `live` and `test` prefixes are a built-in layer of protection to guard you against mixing up the two. For the especially security aware, you could go even further and set up checks to make sure you're only using the key for the appropriate environment:
+
+```js
+if (preg_match("/sk_live/i", $_ENV["STRIPE_SECRET_API_KEY"])) {
+  echo "Live key detected! Aborting!";
+  return;
+}
+
+echo "Proceeding in test mode";
+```
+
+Stripe has been using this prefixing technique since 2012, and as far as I know, we're the first ones to implement it at scale. (Is this incorrect? Let me know in the comments below!). Before 2012, all Object IDs at Stripe looked more like traditional UUIDs. If you were an early Stripe adopter you might notice that your account ID still looks like this, without the prefix. 
+
+**Edit:** The [IETF](https://www.ietf.org/) beat Stripe to the idea by a number of years with the [URN spec](https://en.wikipedia.org/wiki/Uniform_Resource_Name). Are you using the URN format in your work? Let me know!
+
+## Designing APIs for humans
+
+The anatomy of a Stripe ID is mostly influenced by our desire to design APIs for the human developers who need to integrate them. Computers generally don't care about what an ID looks like, as long as it's unique. The humans that develop using those IDs do care very much though, which is why we put a lot of effort into the developer experience of our API.
+
+Hopefully this article has convinced you of the benefits of prefixing your IDs. If you're curious on how to effectively implement them (and happen to be working in Ruby), Chris Oliver built a [gem](https://github.com/excid3/prefixed_ids) that makes adding this to your systems trivial.

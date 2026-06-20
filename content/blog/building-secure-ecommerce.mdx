@@ -1,0 +1,228 @@
+---
+title: "Building secure ecommerce "
+date: 2023-03-16
+description: "---"
+---
+
+---
+title: Building secure ecommerce
+description: Tips on how to make sure your payments stack is secure
+tags: [ecommerce, security, fraud]
+category: blog
+image: https://user-images.githubusercontent.com/108872335/225691485-e6dc1504-5f05-41c6-a18a-5c68be3129cc.png)
+---
+
+## Tech debt comes for us all
+![ecommerce](https://user-images.githubusercontent.com/108872335/225691485-e6dc1504-5f05-41c6-a18a-5c68be3129cc.png)
+
+When building something new, I aspire to follow the same process: 
+
+1. Get product working
+2. Evaluate implementation
+3. Refactor and solidify
+
+The idea being that once you've gotten your proof of concept (step 1), you go back and see if there are any obvious improvements to be made. If there are, you refactor your code and hopefully add a few tests before moving on.
+
+Let's be honest though, everyone's been in a place where they reached the end of step one, sighed a breath of relief and called it a day, vowing to return to their code at _some point_ in the future. This is known as [tech debt](https://en.wikipedia.org/wiki/Technical_debt). 
+
+While this article isn't about tech debt in particular, it is about what tends to happen _after_ you've acquired some tech debt. Security is one of those things that developers sometimes take for granted, putting their trust in the tools and frameworks they use to do the heavy lifting. While that's often the case, there are always things you can do to protect yourself and your business from the worst of the worst. Ignoring security initially is unlikely to hurt you in the short term, but as your business grows it might draw the attention of unscrupulous folks ready to abuse your security tech debt.
+
+In this article we'll look at some of the most effective ways to protect your Stripe integration from the very beginning. Some will seem obvious, but it's good practice to cover all your bases, just in case.
+
+## Don't commit API keys to Github
+
+Speaking of obvious, I probably don't need to tell you that you should keep your secret API keys safe and secure. This is a no-brainer, but you'd be surprised at how often secret key leaks do happen. A common and easy-to-avoid pitfall is checking your keys into source control. 
+
+Newer developers especially might get hit by this. I've seen this anti-pattern commonly used to swap out keys when testing different environments:
+
+```javascript
+// test
+const stripe = new Stripe('sk_test_123');
+
+// prod
+// const stripe = new Stripe('sk_live_123');
+```
+
+Idea being that you can just uncomment the environment you want to use at the time. At first glance, devs like this because it's easy to swap between the two, but by pushing this up to git you've now compromised your API keys to anyone who has access to your repo. Unfortunately, the only thing you can do in this instance to mitigate things is to [immediately roll your keys](https://support.stripe.com/questions/locate-api-keys-in-the-dashboard) and hope that no one abuses them before the rolling is complete. Please note that rolling your keys is not a solution, it's a mitigation. You still need to fix the root cause of the original leak.
+
+The correct solution is to of course use [environmental variables](https://medium.com/chingu/an-introduction-to-environment-variables-and-how-to-use-them-f602f66d15fa) in an `.env` file. Just don't check that `.env` file into git as well! Use [`.gitignore`](http://git-scm.com/docs/gitignore) files to make sure your environment variables never get accidentally leaked.
+
+Putting your sensitive keys in a `.env` file isn't enough though, you also need to ensure that only trusted parties can access your keys. The more people in your organization that have access to your keys, the higher the chance of leaks, accidental or otherwise. API keys should be treated as a "need to know" resource, where ideally only administrators of your Stripe account have access to the keys at all.
+
+**Note**: Your test secret API keys (e.g. `sk_test_123`) are also sensitive! Your test data could be ruined by a malicious person with your test secret API key. While not world ending, it certainly would be annoying if you rely on test data in a certain state to test your app. Plus, test data isn't always dummy data. Is someone on your team building a [Stripe Connect](https://stripe.com/docs/connect) integration? Are they using real information like their home address and phone number to sign up in test mode? That's sensitive data that can be accessed via your test secret API key. **Always** keep your secret API keys safe, regardless of whether they are test or live mode keys.
+
+## Never let the client set the amount
+
+Take the following hypothetical code situation:
+
+```javascript
+// client
+const totalAmount = 1000;
+const { clientSecret } = await fetch('/create-payment-intent', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    amount: totalAmount,
+  }),
+}).then((res) => res.json());
+
+// server
+app.post('/create-payment-intent', async (res, req) => {
+  const pi = await stripe.paymentIntents.create({
+    amount: req.body.amount,
+    currency: 'usd',
+    payment_method_types: ['card'],
+  });
+
+  res.send({
+    clientSecret: pi.client_secret,
+  });
+});
+```
+
+This seems like a fairly simple way to get the client to request the server to create a [PaymentIntent](https://stripe.com/docs/payments/payment-intents) which can then be [confirmed](https://stripe.com/docs/payments/intents) on the client to complete the payment. However there's a pretty big flaw here, which you've probably already noticed: the amount to be charged is set on the client. 
+
+Since the client is just JavaScript, it's trivially easy in the above scenario for someone to set a breakpoint in the script before executing the fetch, change the amount they're expected to pay and then let the script resume. This basically means that a bad actor could decide themselves what they want to pay instead of what your business logic thinks they should pay.
+
+Even worse, this allows a malicious user to repeatedly hit your endpoint and create PaymentIntents with an amount of their choosing. We'll talk about why this is a problem later on.
+
+![Using Chrome's devtools you can easily copy a request and replay it as many times as you want](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0xdqitzjxu44fbldltr1.png)
+
+_Using Chrome's devtools you can easily copy a request and replay it as many times as you want_
+
+Instead of passing an amount to your backend, pass something immutable like an ID that represents the goods or services your customer is purchasing. Ideally, you have your prices stored in a database that your backend's business logic can access to calculate the total amount owed.
+
+There are some legitimate use cases for letting the client set the amount; for instance, if you're collecting donations or have pay-what-you-want products. In these situations you should consider using Stripe Checkout, which comes with some [out-of-the box utility](https://stripe.com/docs/payments/checkout/pay-what-you-want) for those use cases.
+
+## Verify your webhook signatures
+
+[Webhooks](https://stripe.com/docs/webhooks) are an incredibly powerful tool for your business logic. Stripe recommends that everyone use them as they're the easiest way to ensure that nothing important relating to your Stripe account is ever missed. 
+
+When you're building your webhook integration, it's extremely important to remember to verify your webhook signatures. We'll explain exactly what that means in a moment. Let's start with an example of what _not_ to do:
+
+```javascript
+app.post('/webhook', express.json({type: 'application/json'}), (request, response) => {
+  const event = request.body;
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+      console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
+      // Then define and call a method to handle the successful payment intent.
+      // handlePaymentIntentSucceeded(paymentIntent);
+      break;
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
+});
+```
+
+This looks great, until you notice that _anyone_ can hit this `/webhook` endpoint, pretend to be Stripe, and trick your server into performing some business logic. Likely to get free stuff.
+
+You really _only_ want Stripe to be hitting this endpoint, so how do we make sure that only Stripe can do that without implementing some sort of authentication logic? This is where signature verification comes in. 
+
+When you create a webhook endpoint, Stripe provides you with a webhook signing secret (that looks like `whsec_123`). Using this key you can cryptographically check that the request you received on your webhook did in fact come from Stripe and not from a malicious pretender. If that sounds complicated to do, don't worry: the Stripe client libraries have got you covered. Here's that same code again but with signature verification:
+
+```javascript
+// webhook signing secret should be safely stored in your environment variables
+const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
+app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+  let event = request.body;
+  // Only verify the event if you have an endpoint secret defined.
+  // Get the signature sent by Stripe
+  const signature = request.headers['stripe-signature'];
+  try {
+    event = stripe.webhooks.constructEvent(
+      request.body,
+      signature,
+      endpointSecret
+    );
+  } catch (err) {
+    console.error(`⚠️  Webhook signature verification failed.`, err.message);
+    return response.sendStatus(400);
+  }
+}
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+      console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
+      // Then define and call a method to handle the successful payment intent.
+      // handlePaymentIntentSucceeded(paymentIntent);
+      break;
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
+});
+```
+
+The above example uses Node, but every Stripe client library comes with [signature verification built in](https://stripe.com/docs/webhooks/signatures#verify-official-libraries). With this small change we have:
+
+* Made sure only Stripe can hit this endpoint
+* Stopped malicious attackers in their tracks
+* Used cryptography and can now put it on our resume 💪
+
+## Beware of card testing
+
+[Card Testing](https://stripe.com/docs/card-testing) (aka "carding" or "card checking") is the fraudulent activity of testing whether stolen credit cards can be used to make purchases. In a nutshell the fraud looks like:
+
+1. Fraudster obtains stolen credit card numbers
+2. Fraudster "hijacks" your Stripe integration to test if the cards are valid
+3. Fraudster either uses or sells the valid cards
+
+Being the victim of card testing can range from bad to _very_ bad for your business. At best you'll have to deal with potentially thousands of fraudulent charges that you have to refund. At worst you'll be looking at refunds, disputes, [DDOS](https://en.wikipedia.org/wiki/Denial-of-service_attack#Distributed_attack)'ing of your servers plus some hefty fines from card networks if you fail to mitigate the problem. In extreme cases it can even be a company ending event. 
+
+The most common way of achieving step 2 above is by attacking an unsuspecting victim's unsecured endpoint. Let's look at some code to give you an idea of what I mean:
+
+```javascript
+app.post('/create-payment-intent', async (res, req) => {
+  const pi = await stripe.paymentIntents.create({
+    amount: 1000,
+    currency: 'usd',
+    payment_method_types: ['card'],
+  });
+
+  res.send({
+    clientSecret: pi.client_secret,
+  });
+});
+```
+
+You might recognize this. It's the same code that I showed earlier when discussing not letting the client set the amount, but with the amount now correctly handled on the server. The problem with the above is that ideally you only really want your client to hit this particular endpoint, but it's accessible to anyone on the internet!
+
+Fraudsters love unsecured endpoints like this because it means they can effectively hijack your Stripe integration to generate an infinite amount of PaymentIntents. (Bonus if they can also set the amount themselves, which you aren't doing anymore, right?). [Publishable API keys](https://stripe.com/docs/keys#obtain-api-keys) aren't secret, which means fraudsters just need a PaymentIntent's client secret to confirm a payment without your input.
+
+I won't go into the weeds of how fraudsters do this exactly here, but if you're interested you can watch a talk on this very topic I did for Snyk's The Big Fix where I do a deep dive: 
+
+<iframe
+  src="https://www.youtube.com/embed/sZKTWVDnBAQ"
+  title="Card Testing: A Developer's Guide to Fighting Against the Dark Web"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+  style={{width: '100%', aspectRatio: '16/9', border: 'none', marginBottom: '1rem'}}
+/>
+
+The best way to counter this kind of attack is by implementing a [CAPTCHA](https://en.wikipedia.org/wiki/CAPTCHA) with server-side confirmation. In a nutshell, a CAPTCHA is a type of test used to determine whether the user is a human or not. The most common iteration are the ones that ask you to identify objects in a picture (e.g. "click on all the tiles that have bicycles"). Here's how the flow works:
+
+1. Present CAPTCHA on the client when user attempts to purchase something
+2. Once CAPTCHA is completed, send a request to the backend including the generated key
+3. Verify on the server with the key from step 2 that the CAPTCHA was indeed passed
+4. Return the PaymentIntent client secret and complete the payment
+
+Here's a [tinydemo example](https://stripe-tinydemos-payment-element-captcha.glitch.me/) of the above working with Google's reCAPTCHA v3. If you ran through the example and didn't see a CAPTCHA (as in it didn't ask you to find Waldo in a picture), that's because v3 of reCAPTCHA is "invisible" and runs entirely behind the scenes to determine whether you're a human or not.
+
+Using this technique means that requests to create payments on your server can only be initiated by a human and not a script or bot, which is what fraudsters use to card test at scale.
+
+## Wrap up
+
+These were some of the low-hanging fruits of security with Stripe that are the easiest to implement. While this isn't a guarantee that your integration is completely secure, it should set you on the path of good security habits. For further reading on security in your Stripe integration, [check out the docs](https://stripe.com/docs/security/guide)!
+
+Did you enjoy this and want to read about more advanced security considerations? Let me know by reaching out on [Twitter](https://twitter.com/paul_asjes)!
+
+_Illustration by [Chris Trag](https://twitter.com/chris_trag)._

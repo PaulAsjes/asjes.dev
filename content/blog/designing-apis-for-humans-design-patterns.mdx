@@ -1,0 +1,123 @@
+---
+title: "Designing APIs for humans: Design patterns"
+date: 2023-07-22
+description: "---"
+---
+
+---
+tags:
+ - API design
+ - Design patterns
+---
+
+Previously in this series I’ve argued that we should design our APIs with the humans that use them in mind. I've covered [object IDs](https://dev.to/stripe/designing-apis-for-humans-object-ids-3o5a) and [error messages](https://dev.to/stripe/designing-apis-for-humans-error-messages-94p) and how Stripe approaches each, but left arguably the most impactful consideration for last: design patterns. 
+
+APIs are interesting because of how much they can make or break a product. Having a product that’s amazing but an API that’s incomplete, difficult to work with or outright confusing means that the vast majority of your users might never discover how great your product really is. If a developer isn’t able to make some meaningful progress within the first 30 minutes, you might have lost them forever. On the flip side, mediocre products with a great API experience are likely to outperform. The reason is quite simple: the API is part of the product, so we should treat it with the same level of attention and polish.
+
+## Understanding your humans
+
+A great first step to getting to a great API experience is to start thinking about design patterns before you write your first line of code. When designing, you should keep three things in mind:
+
+1. Who is the intended audience?
+2. How customizable do you want the API to be?
+3. How much accessibility are you willing to give up for customizability?
+
+## Who is the intended audience?
+
+For the first point, knowing your audience is absolutely essential before committing to a design pattern. In general, APIs are intended for power users, but do you want to cater to junior developers as well? You can do so by keeping your API overly simple to interact with and make many opinionated decisions for the user. 
+
+If your product is niche and only used by a subset of developers (e.g., only enterprise level developers using Java or C++), do you lean in more to their preferred object models and language constructs?
+
+## How customizable do you want the API to be?
+
+Power and accessibility are big factors here too. A powerful API is one that gives a lot of options to its end users, like being able to customize many different factors of an API request. This comes at a cost of accessibility, as the more options available the more complex the API gets. A complex API means you’re more likely to run into walls when trying to build your integration, making it frustrating to work with. For instance you might have to make complex decisions that could have ramifications for future versions of your project, potentially without enough experience.
+
+![Graph showing how APIs get more complex as they increase in power](https://github.com/PaulAsjes/asjes.dev/assets/108872335/c62f9e4a-23c7-4e15-8f08-a6add647722d)
+
+An API on the far left of this graph is easy to use, likely only exposes a single route and can be learned in a matter of minutes. It however is also constrained by its ease-of-use. If the end-user’s use case differs from the “happy path” devised by the API’s designers, they’re out of luck.
+
+On the far right of this graph you have a powerful API, where the user has full control of every aspect, molding the API to their exact specifications. However, it  comes with a steep learning curve and is vulnerable to any future change to the API.
+
+You want to be somewhere in the middle, perhaps leaning towards a less complex API. Ideally the “happy path” is an integration path that covers nearly all of your users’ use cases, allowing some wriggle room for those power users that have a hyper-specific need. 
+
+## How much accessibility are you willing to give up for customizability?
+
+Where you sit on the graph will largely depend on that first question of who your intended audience is. Remember that while you can turn a low-power, low-complexity API into a powerful yet complex one, it’s near impossible to do the reverse without starting from scratch. Bias towards starting simple and then build up, but try to not to architect yourself into a corner that’s hard to get out of later.
+
+Figuring out your design patterns early unlocks some huge benefits that’ll help the longevity and development velocity of your API. 
+
+## Be consistent
+
+First up is consistency. Let’s start with a quick example of what I mean by that here. The most common operations for an API are usually a request to GET a resource and a POST to create or update a resource.
+
+```
+// Create a PaymentIntent
+POST /v1/payment_intents
+
+// Update a PaymentIntent
+POST /v1/payment_intents/:id
+
+// Get a specific PaymentIntent
+GET /v1/payment_intents/:id
+```
+
+In the above example we show a route to GET a PaymentIntent, but it only allows you to retrieve one at a time. If you need to obtain a list of PaymentIntents, then it can be quite painful to call the endpoint multiple times. This is especially true if you don’t already have a list of PaymentIntent IDs, not to mention the possibility of being rate limited if your list is too large. Adding a [“list” endpoint](https://stripe.com/docs/api/payment_intents/list) is a nice quality of life improvement here, giving the user flexibility and the ability to reduce operations into as few API requests as possible.
+
+```
+// Get a list of PaymentIntents
+GET /v1/payment_intents
+```
+
+Now imagine the frustration if you were able to list PaymentIntents, but not other resources like Customers. As an API designer you want your API to be as predictable as possible, allowing users to guess what combination of HTTP verbs and endpoints work based on prior experience with your API. Be strict with maintaining consistency in your design; new routes should work in largely the same way as existing ones. Not only does this allow users to ramp up much quicker in using your API, but it gives it that polished feel of a well-designed, intuitive experience.
+
+## Be intuitive
+
+Speaking of which, let’s dive a little deeper into intuition and what that means. To illustrate, let’s pretend that we have a Customer resource object in our API that takes 3 fields: name, email and address. First we create the customer:
+
+```
+// Request
+curl https://api.example.com/v1/customers 
+  -u sk_test_123
+  -d "name"="Leto Atreides"
+  -d "email"="leto@houseatreides.com"
+  -d "address"="1 Palace Street, Caladan"
+
+// Response
+{
+  "id": "cus_123",
+  "object": "customer",
+  "name": "Leto Atreides",
+  "email": "leto@houseatreides.com",
+  "address": "1 Palace Street, Caladan"
+}
+```
+
+Then at some later point we update the customer:
+
+```
+// Request
+curl https://api.example.com/v1/customers/cus_123 
+  -u sk_test_123:
+  -d "address"="1 Spice Road, Arrakis"
+
+// Response
+{
+  "id": "cus_123",
+  "object": "customer",
+  "name": undefined,
+  "email": undefined,
+  "address": " 1 Spice Road, Arrakis"
+}
+```
+
+This is a simple request, just updating an existing customer’s address, but hang on, where did the values for `name` and `email` go? Well,  the API did exactly as it was told to. It updated the `address` value, but since the `name` and `email` values were absent in the update request, it interpreted the absence as a request to unset both values. 
+
+This is extremely frustrating, but _technically_ correct and a clear indicator that this API wasn’t designed with humans in mind. Instead of checking to see if the parameter was passed in, the designers of this API updated the object with the attribute’s value, whether it was provided or not.
+
+APIs thrive on being intuitive, operations such as the above should “just work” based on the common assumption rather than a computer’s tendency to do exactly as it was told. 
+
+## Designing APIs for Humans
+
+There are many resources out there for how you should design your API, and I hope that this article gave you some food for thought and the incentive to dive deeper into this rabbit hole.
+
+In the next article we’ll cover some design patterns that we use at Stripe and why I think they warrant a closer look. I also recommend you check out the previous articles in this series to learn more about how we approach API design at Stripe.

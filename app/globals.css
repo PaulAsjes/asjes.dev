@@ -158,28 +158,92 @@ h6 {
   border: 1px solid #1a1a1a;
 }
 
-/* Code blocks via rehype-pretty-code */
-.prose pre {
-  background: #0f0f0f !important;
-  border: 1px solid #1a1a1a;
+/* ─── rehype-pretty-code ─────────────────────────────────────────────────── */
+
+/* Wrapper figure */
+[data-rehype-pretty-code-figure] {
+  margin-bottom: 1.5rem;
+}
+
+/* Optional filename/title bar above the block */
+[data-rehype-pretty-code-title] {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-bottom: none;
+  padding: 0.4rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #b8b4ac;
+  letter-spacing: 0.05em;
+}
+
+/* The <pre> block */
+.prose pre,
+[data-rehype-pretty-code-figure] pre {
+  background: #0d0d0d !important;
+  border: 1px solid #2a2a2a;
   border-left: 3px solid #cc0000;
   padding: 1.25rem 1.5rem;
   overflow-x: auto;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
   font-size: 0.875rem;
-  line-height: 1.7;
+  line-height: 1.75;
+  border-radius: 0;
 }
 
-.prose pre code {
+/* <code> inside pre — reset styles added by .prose :not(pre) > code */
+.prose pre code,
+[data-rehype-pretty-code-figure] pre code {
   background: none !important;
   color: inherit;
   padding: 0;
   border: none;
   font-size: inherit;
+  display: grid; /* makes each [data-line] span full width */
 }
 
-[data-rehype-pretty-code-figure] pre {
-  background: #0f0f0f !important;
+/* Each line */
+[data-line] {
+  padding: 0 1.5rem;
+  margin: 0 -1.5rem;
+  border-left: 2px solid transparent;
+}
+
+/* Highlighted line (e.g. ```js {2,4}) */
+[data-highlighted-line] {
+  background: rgba(204, 0, 0, 0.08);
+  border-left-color: #cc0000;
+}
+
+/* Highlighted word/chars (e.g. ```js /someWord/) */
+[data-highlighted-chars] {
+  background: rgba(204, 0, 0, 0.2);
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+}
+
+/* Line numbers */
+code[data-line-numbers] {
+  counter-reset: line;
+}
+
+code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1.5rem;
+  text-align: right;
+  color: #555;
+  user-select: none;
+}
+
+/* Wider gutter when line count ≥ 10 */
+code[data-line-numbers][data-line-numbers-max-digits="2"] > [data-line]::before {
+  width: 1.5rem;
+}
+code[data-line-numbers][data-line-numbers-max-digits="3"] > [data-line]::before {
+  width: 2rem;
 }
 
 /* Table styles */

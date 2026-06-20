@@ -1,0 +1,232 @@
+---
+title: "Designing APIs for humans: Error Messages"
+date: 2023-03-16
+description: "---"
+---
+
+---
+tags:
+ - API design
+ - Error messages
+---
+## Good error message, bad error message
+
+Error messages are like letters from the tax authorities. You'd rather not get them, but when you do, you'd prefer them to be clear about what they want you to do next.
+
+When integrating a new API it is inevitable that you'll encounter an error at some point in your journey. Even if you're following the docs to the letter and copy & paste code samples, there's always something that will break – especially if you've moved beyond the examples and are now adapting them to fit your use case. 
+
+Good error messages are an underrated and underappreciated part of APIs. I would argue that they are just as important a learning path as documentation or examples in teaching developers how to use your API. 
+
+As an example, there are many people out there who prefer [kinesthetic learning](https://en.wikipedia.org/wiki/Kinesthetic_learning), or learning by doing. They forgo the official docs and prefer to just hack away at their integration armed with an IDE and an [API reference](https://stripe.com/docs/api). 
+
+Let's start by showing an example of a real error message I've seen in the wild:
+
+```
+{
+  status: 200,
+  body: {
+    message: "Error"
+  }
+}
+```
+
+If it seems underwhelming, that's because it is. There are many things that make this error message absolutely unhelpful; let's go through them one by one.
+
+## Send the right code
+
+The above is an error, or is it? The body message says it is, however the status code is `200`, which would indicate that [everything's fine](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses). This is not only confusing, but outright dangerous. Most error monitoring systems first filter based on status code and then try to parse the body. This error would likely be put in the "everything's fine" bucket and get completely missed. Only if you add some natural language processing could you automatically detect that this is in fact an error, which is a ridiculously overengineered solution to a simple problem.
+
+Status codes are for machines, error messages are for humans. While it's always a good idea to have a solid understanding of status codes, you don't need to know all of them, especially since some are a bit [esoteric](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418). In practise this table is all a user of your API should need to know:
+
+| **Code** | **Message** |
+| - | - |
+| 200 - 299 | All good |
+| 400 - 499 | You messed up |
+| 500 - 599 | We messed up |
+
+You of course can and should get more specific with the error codes (like a 429 should be sent when you are [rate limiting](https://www.cloudflare.com/learning/bots/what-is-rate-limiting/) someone for sending too many requests in a short period of time).
+
+The point is that HTTP response status codes are part of the spec for a reason, and you should always make sure you're sending back the correct code.
+
+This might seem obvious, but it's easy to accidentally forget status codes, like in this Node example using Express.js:
+
+```js
+// ❌ Don't forget the error status code
+app.post('/your-api-route', async (req, res) => {      
+  try {
+    // ... your server logic
+  } catch (error) {    
+    return res.send({ error: { message: error.message } });
+  }  
+
+  return res.send('ok');
+});
+
+// ✅ Do set the status correctly
+app.post('/your-api-route', async (req, res) => {      
+  try {
+    // ... your server logic
+  } catch (error) {    
+    return res.status(400).send({ error: { message: error.message } });
+  }  
+
+  return res.send('ok');
+});
+```
+
+In the top snippet we send a 200 status code, regardless of whether an error occurred or not. In the bottom we fix this by simply making sure that we send the appropriate status along with the error message. Note that in production code we'd want to differentiate between a `400` and `500` error, not just a blanket `400` for all errors.
+
+## Be descriptive
+
+Next up is the error message itself. I think most people can agree that "Error" is just about as useful as not having a message at all. The status code of the response should already tell you if an error happened or not, the message needs to elaborate so you can actually fix the problem.
+
+It might be tempting to have deliberately obtuse messages as a way of obscuring any details of your inner systems from the end user; however, remember who your audience is. APIs are for developers and they will want to know exactly what went wrong. It's up to these developers to display an error message, if any, to the end user. Getting an "An error occurred" message can be acceptable if you're the end user yourself since you're not the one expected to debug the problem (although it's still frustrating). As a developer there's nothing more frustrating than something breaking and the API not having the common decency to tell you _what_ broke.
+
+Let's take that earlier example of a bad error message and make it better:
+
+```
+{
+  status: 404,
+  body: {
+    error: {
+      message: "Customer not found"
+    }    
+  }
+}
+```
+
+Already we can see:
+
+* We have a relevant status code: 404, resource not found
+* The message is clear: this was a request that tried to retrieve a customer, and it failed because the customer could not be found
+* The error message is wrapped in an error object, making working with the error a little easier. If not relying on status codes, you could simply check for the existence of `body.error` to see if an error occurred.
+
+That's better, but there's room for improvement here. The error is _functional_ but not _helpful_.
+
+## Be helpful
+
+This is where I think great APIs distinguish themselves from simply "okay" APIs. Letting you know what the error was is the bare minimum, but what a developer really wants to know is _how to fix it_. A "helpful" API wants to work with the developer by removing any barriers or obstacles to solving the problem.
+
+The message "Customer not found" gives us some clues as to what went wrong, but as API designers we know that we could be giving so much more information here. For starters, let's be explicit about _which_ customer was not found:
+
+```
+{
+  status: 404,
+  body: {
+    error: {
+      message: "Customer cus_Jop8JpEFz1lsCL not found"
+    }    
+  }
+}
+```
+
+Now not only do we know that there's an error, but we get the incorrect ID thrown back at us. This is particularly useful when looking through a series of error logs as it tells us whether the problem was with one specific ID or with multiples. This provides clues on whether it's a problem with a singular customer or with the code that makes the request. Furthermore, the [ID has a prefix](https://dev.to/stripe/designing-apis-for-humans-object-ids-3o5a), so we can immediately tell if it was a case of using the wrong ID type.
+
+We can go further with being helpful. On the API side we have access to information that could be beneficial in solving the error. We could wait for the developer to try and figure it out themselves, or we could just provide them with additional information that we know will be useful.
+
+For instance, in our "Customer not found" example, it's possible that the reason the customer was not found is because the customer ID provided exists in live mode, but we're using test mode keys. Using the wrong API keys is an easy mistake to make and is trivial to solve once you know that's the problem. If on the API side we did a quick lookup to see if the customer object the ID refers to exists in live mode, we could immediately provide that information:
+
+```
+{
+  status: 404,
+  body: {
+    error: {
+      message: "Customer cus_Jop8JpEFz1lsCL not found; a similar object exists in live mode, but a test mode key was used to make this request."
+    }    
+  }
+}
+```
+
+This is much more helpful than what we had before. It immediately identifies the problem and gives you a clue on how to solve it. Other examples of this technique are:
+
+* In the case of a type mismatch, state what was expected and what was received ("Expected a string, got an integer")
+* Is the request missing permissions? Tell them how to get them ("Activate this payment method on your dashboard with this URL")
+* Is the request missing a field? State exactly which one is missing, perhaps linking to the relevant page in your docs or API reference
+
+**Note**: Be careful with what information you provide in situations like that last bullet point, as it's possible to leak information that could be a security risk. In the case of an authentication API where you provide a username and password in your request, returning an "incorrect password" error lets a would-be attacker know that while the password isn't correct, the username is.
+
+## Provide more pieces of the puzzle
+
+We can and should strive to be as helpful as possible, but sometimes it isn't enough. You've likely encountered the situation where you thought you were passing in the right fields in your API request, but the API disagrees with you. The easiest way to get to a solution is to look back at the original request and what _exactly_ you passed in. If a developer doesn't have some sort of logging setup then this is tricky to do, however an API service should always have logs of requests and responses, so why not share that with the developer?
+
+At Stripe we provide a request ID with every response, which can easily be identified as it always starts with `req_`. Taking this ID and looking it up on the Dashboard gets you a page that details both the request and the response, with extra details to help you debug.
+
+
+![Helpful information on the Stripe Dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vn4945cgfpcq0mhpls9w.png)
+
+Note how the Dashboard also provides the timestamp, API version and even the source (in this case version 8.165 of [stripe-node](https://github.com/stripe/stripe-node)). 
+
+As an extra bonus, providing a request ID makes it extremely easy for Stripe engineers in our [Discord server](https://stripe.com/go/developer-chat) to look up your request and help you debug by looking up the request on Stripe's end.
+
+## Be empathetic
+
+The most frustrating error is the 500 error. It means that something went wrong on the API side and therefore wasn't the developer's fault. These types of errors could be a momentary glitch or a potential outage on the API provider's end, which you have no real way of knowing at the time. If the end user relies on your API for a business critical path, then getting these types of errors are very worrying, particularly if you start to get them in rapid succession. 
+
+Unlike with other errors, full transparency isn't as desired here. You don't want to just dump whatever internal error caused the 500 into the response, as that would reveal sensitive information about the inner workings of your systems. You should be fully transparent about what the _user_ did to cause an error, but you need to be careful what you share when _you_ cause an error.
+
+Like with the first example way up top, a lacklustre "500: error" message is just as useful as not having a message at all. Instead you can put developers at ease by being empathetic and making sure they know that the error has been acknowledged and that someone is looking at it. Some examples:
+
+* "An error occurred, the team has been informed. If this keeps happening please contact us at `{URL}`"
+* "Something went wrong, please check our status page at `{URL}` if this keeps happening"
+* "Something goofed, our engineers have been informed. Please try again in a few moments"
+
+It doesn't solve the underlying problem, but it does help to soften the blow by letting your user know that you're on it and that they have options to follow up if the error persists.
+
+## Putting it all together
+
+In conclusion, a valuable error message should:
+
+* Use the correct status codes
+* Be descriptive
+* Be helpful
+* Provide elaborative information
+* Be empathetic 
+[16:21](https://buildingbots.slack.com/archives/D1D9UK6Q4/p1678980115676029)
+Here's an example of a Stripe API error response after trying to retrieve a customer with the wrong API keys:
+
+```
+{
+  status: 404,
+  body: {
+    error: {
+      code: "resource_missing",
+      doc_url: "https://stripe.com/docs/error-codes/resource-missing",
+      message: "No such customer: 'cus_Jop8JpEFz1lsCL'; a similar object exists in live mode, but a test mode key was used to make this request.",
+      param: "id",
+      type: "invalid_request_error"
+    }
+  },
+  headers: {    
+    'request-id': 'req_su1OkwzKIeEoCy',
+    'stripe-version': '2020-08-27',    
+  }  
+}
+```
+_(some headers omitted for brevity)_
+
+Here we are:
+
+1. Using the correct HTTP status code
+2. Wrapping the error in an "error" object
+3. Being helpful by providing:
+    1. The error code
+    2. The error type
+    3. A link to the relevant docs
+    4. The API version used in this request
+    5. A suggestion on how to fix the issue
+4. Providing the request ID to look up the request and response pairing
+
+The result is an error message so overflowing with useful information that even the most junior of developers will be able to fix the issue and discover how to use the available tools to debug their code themselves.
+
+## Designing APIs for humans
+
+By putting all these pieces together we not only provide a way for developers to correct mistakes, but also ensure a powerful way of teaching developers how to use our API. Designing APIs with the human developer in mind means we take steps to make sure that our API isn't just intuitive, but easy to work with as well. 
+
+We covered a lot here and it might seem overwhelming to implement some of these mitigations, however luckily there are some resources out there that can help you make your API human-friendly:
+
+* The excellent [APIs you won't hate](https://apisyouwonthate.com/) community (co-run by my colleague [Mike Bifulco](https://twitter.com/irreverentmike)) has some great articles on the subject:
+    * [Why Show Users Garbage API Errors?](https://apisyouwonthate.com/blog/why-show-users-garbage-api-errors)
+    * [Creating Good API errors in REST, GraphQL and gRPC](https://apisyouwonthate.com/blog/useful-api-errors-for-rest-graphql-and-grpc)
+* Tools like [Spectral](https://stoplight.io/open-source/spectral) can be set up to provide useful linting for APIs - catching things like "200 OK - Error" and making sure best practices are adhered to
+
+Got any examples of error messages you thought were excellent (or terrible, because those are more fun)? I'd love to see them! Reach out on [Twitter](https://twitter.com/paul_asjes).
