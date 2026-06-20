@@ -50,7 +50,7 @@ Figuring out your design patterns early unlocks some huge benefits that’ll hel
 
 First up is consistency. Let’s start with a quick example of what I mean by that here. The most common operations for an API are usually a request to GET a resource and a POST to create or update a resource.
 
-```
+```http
 // Create a PaymentIntent
 POST /v1/payment_intents
 
@@ -63,7 +63,7 @@ GET /v1/payment_intents/:id
 
 In the above example we show a route to GET a PaymentIntent, but it only allows you to retrieve one at a time. If you need to obtain a list of PaymentIntents, then it can be quite painful to call the endpoint multiple times. This is especially true if you don’t already have a list of PaymentIntent IDs, not to mention the possibility of being rate limited if your list is too large. Adding a [“list” endpoint](https://stripe.com/docs/api/payment_intents/list) is a nice quality of life improvement here, giving the user flexibility and the ability to reduce operations into as few API requests as possible.
 
-```
+```http
 // Get a list of PaymentIntents
 GET /v1/payment_intents
 ```
@@ -74,7 +74,7 @@ Now imagine the frustration if you were able to list PaymentIntents, but not oth
 
 Speaking of which, let’s dive a little deeper into intuition and what that means. To illustrate, let’s pretend that we have a Customer resource object in our API that takes 3 fields: name, email and address. First we create the customer:
 
-```
+```bash
 // Request
 curl https://api.example.com/v1/customers 
   -u sk_test_123
@@ -94,7 +94,7 @@ curl https://api.example.com/v1/customers
 
 Then at some later point we update the customer:
 
-```
+```bash
 // Request
 curl https://api.example.com/v1/customers/cus_123 
   -u sk_test_123:

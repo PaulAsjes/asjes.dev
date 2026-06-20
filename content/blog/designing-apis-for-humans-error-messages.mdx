@@ -21,7 +21,7 @@ As an example, there are many people out there who prefer [kinesthetic learning]
 
 Let's start by showing an example of a real error message I've seen in the wild:
 
-```
+```json
 {
   status: 200,
   body: {
@@ -84,7 +84,7 @@ It might be tempting to have deliberately obtuse messages as a way of obscuring 
 
 Let's take that earlier example of a bad error message and make it better:
 
-```
+```json
 {
   status: 404,
   body: {
@@ -109,7 +109,7 @@ This is where I think great APIs distinguish themselves from simply "okay" APIs.
 
 The message "Customer not found" gives us some clues as to what went wrong, but as API designers we know that we could be giving so much more information here. For starters, let's be explicit about _which_ customer was not found:
 
-```
+```json
 {
   status: 404,
   body: {
@@ -126,7 +126,7 @@ We can go further with being helpful. On the API side we have access to informat
 
 For instance, in our "Customer not found" example, it's possible that the reason the customer was not found is because the customer ID provided exists in live mode, but we're using test mode keys. Using the wrong API keys is an easy mistake to make and is trivial to solve once you know that's the problem. If on the API side we did a quick lookup to see if the customer object the ID refers to exists in live mode, we could immediately provide that information:
 
-```
+```json
 {
   status: 404,
   body: {
@@ -184,7 +184,7 @@ In conclusion, a valuable error message should:
 [16:21](https://buildingbots.slack.com/archives/D1D9UK6Q4/p1678980115676029)
 Here's an example of a Stripe API error response after trying to retrieve a customer with the wrong API keys:
 
-```
+```json
 {
   status: 404,
   body: {
