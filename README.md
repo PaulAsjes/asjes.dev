@@ -32,13 +32,3 @@ tags:
   - api-design
 ---
 ```
-
-## Talks
-
-Talks are defined in `data/talks.ts`.
-
-## Migrating posts from GitHub Issues
-
-```bash
-GH_TOKEN=your_token pnpm migrate
-```
